@@ -1,0 +1,22 @@
+﻿<Application x:Class="GeneralMerchandise.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:GeneralMerchandise.UI"
+             xmlns:viewmodel="clr-namespace:GeneralMerchandise.UI.ViewModel"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style/Measurement.xaml"/>
+                <ResourceDictionary Source="Style/Color.xaml"/>
+                <ResourceDictionary Source="Style/Image.xaml"/>
+                <ResourceDictionary Source="Style/Font.xaml"/>
+                <ResourceDictionary Source="Style/Text.xaml"/>
+                <ResourceDictionary Source="Style/Button.xaml"/>
+                <ResourceDictionary Source="Style/Border.xaml"/>
+                <ResourceDictionary Source="Style/Window.xaml"/>
+                <ResourceDictionary Source="ViewModels.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

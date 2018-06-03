@@ -1,0 +1,41 @@
+
+CREATE TABLE IF NOT EXISTS Accounts(
+	Id INT(15) PRIMARY KEY,
+	Username VARCHAR(50),
+	HashedPassword VARCHAR(40),
+	Salt VARCHAR(25),
+	AccountType TINYINT(1),
+	IsActive TINYINT(1)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS User_Infos(
+	Id INT(15) PRIMARY KEY,
+	ImageFilename VARCHAR(100),
+	Firstname VARCHAR(100),
+	Middlename VARCHAR(100),
+	Lastname VARCHAR(100),
+	Gender TINYINT(1),
+	Birthdate DATE,
+	ContactNumber VARCHAR(13),
+	Email VARCHAR(75),
+	Address VARCHAR(200)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS Products(
+	Id INT(15) PRIMARY KEY,
+	ImageFilename VARCHAR(100),
+	Name VARCHAR(100),
+	Brand VARCHAR(100),
+	Description VARCHAR(100),
+	UnitPrice DECIMAL(7, 2)
+) ENGINE=InnoDB;
+
+thdMm+Y+bMYD7JLpJsGL//nPKqo=
+VL4uOIzP16hTAPfY7b3AUWe1TFE=
+rCNcUSZYswb+sccoH7V6Fqvd/vs=
+
+YxumTjSBO/xJSweMBBvlxw==
+6jhMIQPx5RZr4ORZA1H9vA==
+
+KRIJqfnv18xfqcBs1cuNj+zfs2RW5YWeJ42mxKy7fj4=
+/zZem5fv7lLgu3oBs61fGH4f/krz9kZFEL5iTmmwGzs=

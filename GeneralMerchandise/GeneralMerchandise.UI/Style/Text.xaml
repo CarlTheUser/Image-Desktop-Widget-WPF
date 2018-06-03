@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:GeneralMerchandise.UI.Style">
+
+    <Style TargetType="TextBlock"
+           x:Key="DefaultWindowTitle">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSemiLarge}"/>
+        <Setter Property="FontFamily" Value="{StaticResource SegoeUI}"/>
+        <Setter Property="Foreground" Value="{StaticResource DefaultTextBrush}"/>
+    </Style>
+
+    <Style TargetType="TextBlock"
+           x:Key="Heading">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeLarge}"/>
+        <Setter Property="FontFamily" Value="{StaticResource SegoeUISemibold}"/>
+        <Setter Property="Foreground" Value="Black"/>
+    </Style>
+
+    <Style TargetType="TextBlock"
+           x:Key="SemiLargeNormalText">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSemiLarge}"/>
+        <Setter Property="FontFamily" Value="{StaticResource SegoeUI}"/>
+        <Setter Property="Foreground" Value="Black"/>
+    </Style>
+
+
+</ResourceDictionary>

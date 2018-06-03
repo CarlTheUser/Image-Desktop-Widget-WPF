@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GeneralMerchandise.UI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ThemeColor" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FFE74C3C</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

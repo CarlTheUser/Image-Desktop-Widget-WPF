@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:GeneralMerchandise.UI.Style">
+
+    <Color x:Key="Light">#FAFAFA</Color>
+    <SolidColorBrush x:Key="LightBrush" Color="{StaticResource Light}"/>
+
+    <Color x:Key="LightDarkened">#EDEDED</Color>
+    <SolidColorBrush x:Key="InactiveBrush" Color="{StaticResource LightDarkened}"/>
+
+    <Color x:Key="Black">#666</Color>
+    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
+
+    <SolidColorBrush x:Key="DefaultTextBrush" Color="{StaticResource Black}"/>
+
+    <Color x:Key="LightGray">#ECF0F1</Color>
+    <SolidColorBrush x:Key="LightGrayBrush" Color="{StaticResource LightGray}"/>
+
+</ResourceDictionary>
