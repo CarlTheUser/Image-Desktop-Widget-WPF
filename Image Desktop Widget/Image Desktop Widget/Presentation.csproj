@@ -92,6 +92,7 @@
     <Compile Include="Animation\PageTransition.cs" />
     <Compile Include="Animation\PageTransitionSource.cs" />
     <Compile Include="Animation\StoryboardExtension.cs" />
+    <Compile Include="ColorUtility.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Command\RelayParameterizedCommand.cs" />
     <Compile Include="Converters\ApplicationPageToPageConverter.cs" />

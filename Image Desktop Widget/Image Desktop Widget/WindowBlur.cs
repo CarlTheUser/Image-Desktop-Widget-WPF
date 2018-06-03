@@ -11,6 +11,9 @@ namespace Image_Desktop_Widget
 {
     public static class WindowBlur
     {
+        //Code from
+        //https://github.com/riverar/sample-win10-aeroglass
+
         internal static void EnableBlur(this Window window)
         {
             var windowHelper = new WindowInteropHelper(window);
