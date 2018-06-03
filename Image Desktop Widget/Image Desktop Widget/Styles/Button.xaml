@@ -1,0 +1,148 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Image_Desktop_Widget.Styles"
+                    xmlns:p="clr-namespace:Image_Desktop_Widget.Properties">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Color.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <!--Hoverless button-->
+    <Style
+        x:Key="Hoverless"
+        TargetType="Button">
+        <Setter
+            Property="BorderThickness"
+            Value="0"/>
+        <Setter 
+            Property="Background"
+            Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border 
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}">
+                        <ContentPresenter/>
+                    </Border>    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    
+    <Style
+        x:Key="PlainButton"
+        TargetType="Button"
+        BasedOn="{StaticResource Hoverless}">
+        <Setter 
+            Property="Padding"
+            Value="5"/>
+        <Setter 
+            Property="Background"
+            Value="White"/>
+        <Setter
+            Property="Foreground"
+            Value="{StaticResource BlackBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}">
+                                <ContentPresenter
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
+                        </Border>
+                        <Rectangle Name="Mask" Fill="Transparent">
+                        </Rectangle>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter 
+                                TargetName="Mask"
+                                Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush 
+                                        Opacity="0.2"
+                                        Color="{StaticResource Black}"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{Binding Source={x:Static p:Settings.Default}, Path=ThemeColor}"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter 
+                                TargetName="Mask"
+                                Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush 
+                                        Opacity="0.4"
+                                        Color="{StaticResource Black}"/>
+                                </Setter.Value>
+                            </Setter>
+                            
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+        
+        
+    
+    <!--Image Frame Icon Button-->
+    <Style 
+        x:Key="ImageFrameIcon"
+        TargetType="Button" 
+        BasedOn="{StaticResource Hoverless}">
+        <Setter 
+            Property="Padding"
+            Value="5"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush
+                    Color="White"
+                    Opacity="0.8"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}">
+                        <ContentPresenter 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        TargetType="Button"
+        BasedOn="{StaticResource Hoverless}"
+        x:Key="ThemeColorButton">
+
+        <Setter
+            Property="Margin"
+            Value="3"/>
+
+        <Setter
+            Property="Width"
+            Value="32"/>
+        
+        <Setter
+            Property="Height"
+            Value="32"/>
+        
+    </Style>
+    
+</ResourceDictionary>

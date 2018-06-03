@@ -1,0 +1,348 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Image_Desktop_Widget"
+                    xmlns:converter="clr-namespace:Image_Desktop_Widget.Converters"
+                    xmlns:p="clr-namespace:Image_Desktop_Widget.Properties"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+                    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Color.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    <converter:DrawingColorToMediaColorConverter x:Key="ColorConverter"/>
+
+
+    <Style TargetType="Window" 
+           x:Key="BorderlessWindow">
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome
+                    CaptionHeight="0"
+                    ResizeBorderThickness="10"
+                    GlassFrameThickness="0"
+                    CornerRadius="0"
+                    />
+            </Setter.Value>
+        </Setter>
+        <Setter
+                Property="WindowStyle"
+                Value="None"/>
+        <Setter 
+                Property="AllowsTransparency"
+                Value="True"/>
+        <Setter
+                Property="Background"
+                Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Window">
+                    <Border
+                        Background="Transparent"
+                        BorderThickness="0">
+                        <Grid>
+                            <ContentPresenter/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Window" 
+           x:Key="DefaultWindow">
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome
+                    CaptionHeight="40"
+                    ResizeBorderThickness="15"
+                    GlassFrameThickness="0"
+                    CornerRadius="0"/>
+            </Setter.Value>
+        </Setter>
+        <Setter
+                Property="WindowStyle"
+                Value="None"/>
+        <Setter 
+                Property="AllowsTransparency"
+                Value="True"/>
+        <Setter
+                Property="Background"
+                Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Window">
+                    <Border
+                        Background="Transparent"
+                        BorderThickness="2">
+                        <Border
+                            Name="Border"
+                            Background="Transparent"
+                            BorderThickness="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush
+                                    Color="{Binding Source={x:Static p:Settings.Default}, Path=ThemeColor}"/>
+                            </Border.BorderBrush>
+                            <Border.Effect>
+                                <DropShadowEffect
+                                        Color="#000"
+                                        Opacity=".4"
+                                        Direction="270"
+                                        ShadowDepth="3"
+                                        BlurRadius="15"/>
+                            </Border.Effect>
+                            <Grid IsHitTestVisible="True">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Name="CaptionRow" Height="40"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0"/>
+                                <Border
+                                    Panel.ZIndex="1"
+                                    Background="White">
+                                    <Border.Effect>
+                                        <DropShadowEffect
+                                        Color="#000"
+                                        Opacity=".4"
+                                        Direction="270"
+                                        ShadowDepth="2"
+                                        BlurRadius="8"/>
+                                    </Border.Effect>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="42"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock 
+                                            Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            Margin="8 0 0 0"
+                                            Style="{StaticResource ImageFrameCaption}"
+                                            Text="{TemplateBinding Property=Title}"
+                                            FontSize="13"/>
+                                        <Button 
+                                            Height="24"
+                                            Width="24"
+                                            WindowChrome.IsHitTestVisibleInChrome="True"
+                                            Grid.Column="1"
+                                            x:Name="CloseButton"
+                                            Style="{StaticResource PlainButton}">
+
+                                            <Button.Content>
+                                                <Image
+                                                Source="pack://application:,,,/Images/Icons/close-16.png" 
+                                                Stretch="Uniform"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </Grid>
+                                </Border>
+
+                                <Grid
+                                    Grid.Row="1" 
+                                    Background="{TemplateBinding Background}">
+                                    <ContentPresenter/>
+                                </Grid>
+                                
+                                    
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsActive" Value="false">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DirtyWhiteShadowLightBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="Window"
+           BasedOn="{StaticResource BorderlessWindow}"
+           x:Key="FrameBase">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Window">
+                    <Grid>
+                        <Rectangle Name="BorderStroke"
+                                   Fill="Transparent"
+                                   Stroke="Transparent"
+                                   StrokeDashArray="4 4"
+                                   SnapsToDevicePixels="True"
+                                   StrokeThickness="1.5">
+                            
+                        </Rectangle>
+                        <ContentPresenter/>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsActive" Value="true">
+                            <Setter TargetName="BorderStroke"  Property="Stroke">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{Binding Source={x:Static p:Settings.Default}, Path=ThemeColor}"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+    </Style>
+
+    <Style TargetType="Window"
+               x:Key="windowStyle">
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome
+                    CaptionHeight="100"
+                    GlassFrameThickness="0"
+                    CornerRadius="0"/>
+            </Setter.Value>
+        </Setter>
+        <Setter
+                Property="WindowStyle"
+                Value="None"/>
+        <Setter 
+                Property="AllowsTransparency"
+                Value="True"/>
+        <Setter
+                Property="Background"
+                Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Window">
+
+                    <Border
+                            Name="Border"
+                            BorderThickness="2"
+                            BorderBrush="#1282af"
+                            Background="White">
+
+                        <Grid Name="GridContainer">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Height="100">
+                                <Grid
+                                        Background="#1282af"
+                                        Height="95">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="24"/>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                                <Line
+                                        X1="0" 
+                                        X2="{Binding Path=ActualWidth, ElementName=GridContainer}"
+                                        VerticalAlignment="Bottom"
+                                        Stroke="#1282af"
+                                        StrokeDashArray="3, 2"
+                                        StrokeThickness="5"/>
+
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <ContentPresenter/>
+                            </Grid>
+
+                            <!--<Line Grid.Row="0"
+   
+                                      
+                  VerticalAlignment="Bottom"                
+    
+    StrokeThickness="5" />-->
+
+                        </Grid>
+
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        TargetType="Window"
+        BasedOn="{StaticResource BorderlessWindow}"
+        x:Key="MessageBoxStyle">
+        <Setter
+            Property="MinHeight"
+            Value="150"/>
+        <Setter
+            Property="MinWidth"
+            Value="200"/>
+        <Setter
+            Property="MaxHeight"
+            Value="550"/>
+        <Setter
+            Property="MaxWidth"
+            Value="600"/>
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome
+                    x:Name="windowChrome"
+                    CaptionHeight="40"
+                    ResizeBorderThickness="7"
+                    GlassFrameThickness="0"
+                    CornerRadius="0"
+                    />
+            </Setter.Value>
+        </Setter>
+        <Setter
+            Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Window">
+                    <Border Padding="5">
+                        <Grid>
+                            <Border 
+                                x:Name="container"
+                                Background="{StaticResource WhiteBrush}"
+                                CornerRadius="6"/>
+
+                            <Border 
+                                CornerRadius="6"
+                                Background="{StaticResource WhiteBrush}">
+                                <Border.Effect>
+                                    <DropShadowEffect
+                                        Color="#000"
+                                        Opacity=".4"
+                                        Direction="270"
+                                        ShadowDepth="3"
+                                        BlurRadius="7"/>
+                                </Border.Effect>
+                            </Border>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=container}" />
+                                </Grid.OpacityMask>
+
+
+                                <Grid Grid.Row="0" WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="30"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Title, FallbackValue=Title}"/>
+                                    <Button Content="close" IsCancel="True">
+                                    
+                                    </Button>
+                                </Grid>
+                                
+                                <ContentPresenter Grid.Row="1"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
