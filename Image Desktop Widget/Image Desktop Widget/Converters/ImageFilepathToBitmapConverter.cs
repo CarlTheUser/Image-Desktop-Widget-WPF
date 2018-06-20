@@ -19,35 +19,42 @@ namespace Image_Desktop_Widget.Converters
             {
                 if(value.GetType() == typeof(string))
                 {
-                    
-                    //I'll need to do this if I want to delete the image
-                    //otherwise it'll throw an exception from an unreleased resource
-                    BitmapImage bitmap = new BitmapImage();
 
-                    try
-                    {
-                        bitmap.BeginInit();
-                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                        bitmap.UriSource = new Uri((string)value);
-                        bitmap.EndInit();
-                    }
-                    catch(FileNotFoundException ex)
-                    {
-                        new MessagePopupNotification().Notify("Image file not found for " + ((string)value));
+                    string filePath = value as string;
 
-                        return Binding.DoNothing;
-                    }
-                    catch(Exception ex)
+                    if (filePath.Length > 0)
                     {
-                        new MessagePopupNotification().Notify("Some error occured. Unable to load file " + (string)value);
-                       
-                        ExceptionLogger exceptionLogger = new ExceptionLogger(TextLogger.GetInstance(DataLayer.Configuration.Instance.TextLogsPath));
 
-                        exceptionLogger.LogException(ex);
-                        
-                        return Binding.DoNothing;
+                        //I'll need to do this if I want to delete the image
+                        //otherwise it'll throw an exception from an unreleased resource
+                        BitmapImage bitmap = new BitmapImage();
+
+                        try
+                        {
+                            bitmap.BeginInit();
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.UriSource = new Uri(filePath);
+                            bitmap.EndInit();
+                        }
+                        catch (FileNotFoundException ex)
+                        {
+                            new MessagePopupNotification().Notify("Image file not found for " + ((string)value));
+
+                            return Binding.DoNothing;
+                        }
+                        catch (Exception ex)
+                        {
+                            new MessagePopupNotification().Notify("Some error occured. Unable to load file " + (string)value);
+
+                            ExceptionLogger exceptionLogger = new ExceptionLogger(TextLogger.GetInstance(DataLayer.Configuration.Instance.TextLogsPath));
+
+                            exceptionLogger.LogException(ex);
+
+                            return Binding.DoNothing;
+                        }
+                        return bitmap;
                     }
-                    return bitmap;
+
                 }
             }
             return Binding.DoNothing;

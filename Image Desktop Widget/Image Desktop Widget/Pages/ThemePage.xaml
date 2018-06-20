@@ -4,13 +4,16 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Image_Desktop_Widget.Pages"
-      mc:Ignorable="d" 
+                xmlns:viewmodels="clr-namespace:Image_Desktop_Widget.ViewModels"
+                mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="300"
       Title="ThemePage">
-
+    <Page.DataContext>
+        <viewmodels:ThemePageViewModel x:Name="VM"/>
+    </Page.DataContext>
     <ScrollViewer HorizontalScrollBarVisibility="Hidden"
                   VerticalScrollBarVisibility="Auto">
-        <Grid x:Name="Page">
+        <Grid>
         
     <Border Background="White"
             VerticalAlignment="Top"
@@ -41,7 +44,7 @@
                                         DataContext="{Binding}"
                                         Style="{StaticResource PlainButton}"
                                     Margin="3"
-                                            Command="{Binding ElementName=Page, Path=DataContext.SetColorCommand}"
+                                            Command="{Binding ElementName=VM, Path=SetColorCommand}"
                                             CommandParameter="{Binding}">
                             <Button.Background>
                                 <SolidColorBrush Color="{Binding}"/>

@@ -99,10 +99,12 @@ namespace Image_Desktop_Widget
                             framedImageDataItem.RotateAngle
                             );
 
-                        new ImageFrame()
+                        ImageFrame imageFrame = new ImageFrame();
+                        imageFrame.GetModel().Parameters = new Dictionary<string, object>()
                         {
-                            DataContext = new ImageFrameViewModel(model)
-                        }.Show();
+                            { ImageFrameViewModel.IMAGE_FRAME_MODEL_PARAMETER, model }
+                        };
+                        imageFrame.Show();
                         
                     }
                 }

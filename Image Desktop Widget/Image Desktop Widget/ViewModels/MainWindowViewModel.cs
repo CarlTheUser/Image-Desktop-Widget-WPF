@@ -6,8 +6,8 @@ namespace Image_Desktop_Widget.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        
-        private ApplicationPage currentPage = ApplicationPage.MainPage;
+
+        private ApplicationPage currentPage;
 
         public ApplicationPage CurrentPage
         {
@@ -23,6 +23,7 @@ namespace Image_Desktop_Widget.ViewModels
 
         public MainWindowViewModel()
         {
+            CurrentPage = ApplicationPage.MainPage;
             ChangePageCommand = new RelayParameterizedCommand(ChangePage);
         }
 

@@ -4,6 +4,7 @@ using System;
 using System.Windows.Input;
 using ViewComponent;
 using Image_Desktop_Widget.Model;
+using System.Collections.Generic;
 
 namespace Image_Desktop_Widget.ViewModels
 {
@@ -29,9 +30,7 @@ namespace Image_Desktop_Widget.ViewModels
         #region Wrapper Items
 
         private StartupBehavior startupBehavior;
-
-        private FrameCreateViewLauncher frameCreateViewLauncher;
-
+     
         private INotification popupMessage;
 
         private INotification<string> imagePicker;
@@ -51,8 +50,6 @@ namespace Image_Desktop_Widget.ViewModels
             popupMessage = new PopupMessageNotification();
 
             imagePicker = new ImagePicker();
-
-            frameCreateViewLauncher = new FrameCreateViewLauncher();
 
         }
 
@@ -95,13 +92,7 @@ namespace Image_Desktop_Widget.ViewModels
         {
             if (imageFilePath.Trim().Length > 0)
             {
-                ImageFrameModel model = ImageFrameModel.NewInstance();
-
-                model.ImagePath = imageFilePath;
-
-                frameCreateViewLauncher.ViewModel = new FrameCreateViewModel(imageFilePath);
-
-                frameCreateViewLauncher.Launch();
+                new FrameCreateViewLauncher(imageFilePath).Launch();
             }
         }
 
@@ -110,17 +101,21 @@ namespace Image_Desktop_Widget.ViewModels
 
         private class FrameCreateViewLauncher : IViewLauncher
         {
-            public FrameCreateViewModel ViewModel { get; set; }
+            public string ImageFilePath { get; set; }
             
-            public FrameCreateViewLauncher() { }
+            public FrameCreateViewLauncher(string imageFilePath)
+            {
+                ImageFilePath = imageFilePath;
+            }
 
             public void Launch()
             {
-                FrameCreate frameCreate = new FrameCreate()
+                FrameCreate frameCreate = new FrameCreate();
+                frameCreate.GetModel().Parameters = new Dictionary<string, object>
                 {
-                    DataContext = ViewModel
+                    { FrameCreateViewModel.IMAGE_FILE_PATH_PARAMETER, ImageFilePath },
+                    { FrameCreateViewModel.CLOSABLE_PARAMETER, frameCreate }
                 };
-                ViewModel.Closable = frameCreate;
                 frameCreate.ShowDialog();
             }
         }
@@ -131,11 +126,13 @@ namespace Image_Desktop_Widget.ViewModels
             {
                 string filePath = string.Empty;
 
-                OpenFileDialog op = new OpenFileDialog();
-                op.Title = message;
-                op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+                OpenFileDialog op = new OpenFileDialog
+                {
+                    Title = message,
+                    Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
                   "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-                  "Portable Network Graphic (*.png)|*.png";
+                  "Portable Network Graphic (*.png)|*.png"
+                };
                 if (op.ShowDialog() == true)
                 {
                     filePath = op.FileName;

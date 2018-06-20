@@ -7,6 +7,7 @@
         xmlns:conv="clr-namespace:Image_Desktop_Widget.Converters"
         mc:Ignorable="d"
         xmlns:p="clr-namespace:Image_Desktop_Widget.Properties"
+        xmlns:viewmodels="clr-namespace:Image_Desktop_Widget.ViewModels"
         MouseDown="Window_MouseDown"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource BorderlessWindow}"
@@ -30,6 +31,9 @@
         </Style>
         <Style TargetType="Slider" BasedOn="{StaticResource FlatSlider}"/>
     </Window.Resources>
+    <Window.DataContext>
+        <viewmodels:FrameCreateViewModel x:Name="VM"/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

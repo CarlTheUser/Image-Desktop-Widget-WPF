@@ -12,7 +12,11 @@ namespace Image_Desktop_Widget.Pages
         public MainPage()
         {
             InitializeComponent();
-            this.DataContext = new MainPageViewModel();
+        }
+
+        public override BaseViewModel GetModel()
+        {
+            return VM;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

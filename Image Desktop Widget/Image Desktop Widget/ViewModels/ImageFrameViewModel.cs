@@ -5,55 +5,66 @@ using System.ComponentModel;
 using ViewComponent;
 using Logging;
 using Image_Desktop_Widget.Model;
+using System.Collections.Generic;
 
 namespace Image_Desktop_Widget.ViewModels
 {
     public class ImageFrameViewModel : BaseViewModel
     {
+
+        public static readonly string IMAGE_FRAME_MODEL_PARAMETER = "ImageFrameModel";
+
+        private static readonly string DEFAULT_CAPTION = "Image frame";
+
         public event EventHandler ImageDisposeRequested = (s, e) => { };
         
         public IClosable Closable { get; set; }
 
-        public ImageFrameModel ImageFrameModel { get; private set; }
+        private ImageFrameModel imageFrameModel = null;
 
-        public ICommand SaveStateCommand { get; private set; }
-        public ICommand DeleteCommand { get; private set; }
-        public ICommand OpenImageCommand { get; private set; }
-        public ICommand ShowImageInExplorerCommand { get; private set; }
-        public ICommand OpenSettingsCommand { get; private set; }
-        public ICommand ShowMainWindowCommand { get; private set; }
+        public ImageFrameModel ImageFrameModel
+        {
+            get => imageFrameModel;
+            set
+            {
+                imageFrameModel = value;
+                OnPropertyChanged("ImageFrameModel");
+            }
+        }
 
-        
+        public ICommand SaveStateCommand { get; }
+        public ICommand DeleteCommand { get; }
+        public ICommand OpenImageCommand { get; }
+        public ICommand ShowImageInExplorerCommand { get; }
+        public ICommand OpenSettingsCommand { get; }
+        public ICommand ShowMainWindowCommand { get; }
 
         private MessagePopupNotification notification;
 
         private IViewLauncher mainViewLauncher;
-
-        private IViewLauncher settingsViewLauncher;
-
-        private static readonly string DEFAULT_CAPTION = "Image frame";
-
-        public ImageFrameViewModel(ImageFrameModel imageFrameModel)
+        
+        public ImageFrameViewModel()
         {
-            ImageFrameModel = imageFrameModel;
-            ImageFrameModel.ErrorOccured += ImageFrameModel_ErrorOccured;
-            ImageFrameModel.Deleted += ImageFrameModel_Deleted;
-            
             SaveStateCommand = new RelayCommand(SaveCurrentState);
             DeleteCommand = new RelayCommand(Delete);
             OpenImageCommand = new RelayCommand(OpenImage);
             ShowImageInExplorerCommand = new RelayCommand(ShowImageInExplorer);
-            OpenSettingsCommand = new RelayCommand(OpenSettings);          
+            OpenSettingsCommand = new RelayCommand(ShowSettings);          
             ShowMainWindowCommand = new RelayCommand(ShowMainWindow);
-
             notification = new MessagePopupNotification() { Caption = DEFAULT_CAPTION };
-
             mainViewLauncher = new MainWindowViewLauncher();
-
-            settingsViewLauncher = new SettingsViewLauncher(ImageFrameModel);
         }
 
-        
+        protected override void OnParametersReceived(IDictionary<string, object> param)
+        {
+            base.OnParametersReceived(param);
+            if(param.ContainsKey(IMAGE_FRAME_MODEL_PARAMETER))
+            {
+                ImageFrameModel = (ImageFrameModel)param[IMAGE_FRAME_MODEL_PARAMETER];
+                ImageFrameModel.ErrorOccured += ImageFrameModel_ErrorOccured;
+                ImageFrameModel.Deleted += ImageFrameModel_Deleted;
+            }
+        }
 
         private void ShowMainWindow()
         {
@@ -72,9 +83,9 @@ namespace Image_Desktop_Widget.ViewModels
             notification.Caption = DEFAULT_CAPTION;
         }
 
-        private void OpenSettings()
+        private void ShowSettings()
         {
-            settingsViewLauncher.Launch();
+            new SettingsViewLauncher(ImageFrameModel).Launch();
         }
 
         private void OpenImage()
@@ -116,6 +127,8 @@ namespace Image_Desktop_Widget.ViewModels
             ImageFrameModel.Delete();
         }
 
+
+        //wrapper class for settings view (don't let the ViewModel directly know view specifics
         private class SettingsViewLauncher : IViewLauncher
         {
             ImageFrameModel ImageFrameModel { get; set; }
@@ -125,10 +138,16 @@ namespace Image_Desktop_Widget.ViewModels
                 ImageFrameModel = imageFrameModel;
             }
 
-            public void Launch() => new ImageFrameSettings()
+            public void Launch()
             {
-                DataContext = new ImageFrameSettingViewModel(ImageFrameModel)
-            }.ShowDialog();
+                ImageFrameSettings imageFrameSettings = new ImageFrameSettings();
+                imageFrameSettings.GetModel().Parameters = new Dictionary<string, object>
+                {
+                    { ImageFrameSettingViewModel.IMAGE_FRAME_MODEL_PARAMETER, ImageFrameModel },
+                    { ImageFrameSettingViewModel.CLOSABLE_PARAMETER, imageFrameSettings }
+                };
+                imageFrameSettings.ShowDialog();
+            }
         }
 
         private class MainWindowViewLauncher : IViewLauncher

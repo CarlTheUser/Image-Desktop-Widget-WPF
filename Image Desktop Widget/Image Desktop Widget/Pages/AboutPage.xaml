@@ -4,11 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Image_Desktop_Widget.Pages"
-      mc:Ignorable="d" 
+                xmlns:viewmodels="clr-namespace:Image_Desktop_Widget.ViewModels"
+                mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="About">
+    <Page.DataContext>
+        <viewmodels:AboutPageViewModel x:Name="VM"/>
+    </Page.DataContext>
     <Grid>
-
         <StackPanel Orientation="Vertical">
             <Border Background="White"
                     Style="{StaticResource Card}">

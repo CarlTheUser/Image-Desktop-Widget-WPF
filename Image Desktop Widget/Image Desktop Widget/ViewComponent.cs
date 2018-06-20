@@ -40,9 +40,9 @@ namespace ViewComponent
     //that will use a viewmodel
     //might as well create a viewmodel in the constrcutor
     //so we can assume all class that inherit can not have a null vm
-    public interface IView<T> where T: BaseViewModel, new()
+    public interface IApplicationView
     {
-        T GetCurrentModel();
+        BaseViewModel GetModel();
     }
 
 

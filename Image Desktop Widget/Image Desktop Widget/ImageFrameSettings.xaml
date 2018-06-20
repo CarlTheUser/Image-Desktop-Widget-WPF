@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Image_Desktop_Widget"
+        xmlns:viewmodels="clr-namespace:Image_Desktop_Widget.ViewModels"
         MouseDown="Window_MouseDown"
         mc:Ignorable="d"
         Title="ImageFrameSettings"
@@ -27,8 +28,10 @@
         </Style>
         <Style TargetType="Slider"
                BasedOn="{StaticResource FlatSlider}"/>
-        
     </Window.Resources>
+    <Window.DataContext>
+        <viewmodels:ImageFrameSettingViewModel x:Name="VM"/>
+    </Window.DataContext>
     <Grid>
         <Border
             Margin="5"
@@ -60,7 +63,7 @@
                         Style="{StaticResource PlainButton}"
                         HorizontalAlignment="Right" Grid.Column="1">
                         <Button.Content>
-                            <Image Source="pack://application:,,,/Images/Icons/close-16.png" Stretch="None" />
+                            <Image Source="{StaticResource CloseIconSmall}" Stretch="None" />
                         </Button.Content>
                     </Button>
                 </Grid>

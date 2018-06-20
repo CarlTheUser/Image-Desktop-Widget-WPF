@@ -6,12 +6,12 @@
       xmlns:local="clr-namespace:Image_Desktop_Widget.Pages"
       mc:Ignorable="d" 
       xmlns:p="clr-namespace:Image_Desktop_Widget.Properties"
-      d:DesignHeight="500" d:DesignWidth="300"
+                xmlns:viewmodels="clr-namespace:Image_Desktop_Widget.ViewModels"
+                d:DesignHeight="500" d:DesignWidth="300"
       Title="MainPage"
                 AllowDrop="True"
                 DragOver="BasePage_DragOver"
       Drop="BasePage_Drop">
-
     <Page.Resources>
 
         <Style TargetType="Button"
@@ -20,6 +20,9 @@
                     Value="0 4"/>
         </Style>
     </Page.Resources>
+    <Page.DataContext>
+        <viewmodels:MainPageViewModel x:Name="VM"/>
+    </Page.DataContext>
     
     <ScrollViewer
             HorizontalScrollBarVisibility="Hidden"

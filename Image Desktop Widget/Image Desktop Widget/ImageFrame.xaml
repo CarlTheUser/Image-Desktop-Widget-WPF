@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Image_Desktop_Widget"
         xmlns:conv="clr-namespace:Image_Desktop_Widget.Converters"
+        xmlns:viewmodels="clr-namespace:Image_Desktop_Widget.ViewModels"
         mc:Ignorable="d"
         Name="ImageFrameWindow"
         Title="ImageFrame" 
@@ -20,8 +21,6 @@
         Width="{Binding ImageFrameModel.Width, Mode=TwoWay, FallbackValue=300}"
         Height="{Binding ImageFrameModel.Height, Mode=TwoWay, FallbackValue=225}"
         StateChanged="ImageFrameWindow_StateChanged" Closing="ImageFrameWindow_Closing">
-    
-    
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" 
                         CanExecute="CommandBinding_CanExecute" 
@@ -44,6 +43,9 @@
                 Command="{Binding ShowImageInExplorerCommand}"/>
         </ContextMenu>
     </Window.ContextMenu>
+    <Window.DataContext>
+        <viewmodels:ImageFrameViewModel x:Name="VM"/>
+    </Window.DataContext>
     <Grid>
         <StackPanel
             Visibility="{Binding ElementName=ImageFrameWindow, Path=IsActive, Converter={StaticResource BoolToVisibility}}"
@@ -76,28 +78,28 @@
                 Command="{x:Static SystemCommands.CloseWindowCommand}"
                 Style="{StaticResource ImageFrameIcon}">
                 <Button.Content>
-                    <Image Source="pack://application:,,,/Images/Icons/close-16.png" Stretch="None" />
+                    <Image Source="{StaticResource CloseIconSmall}" Stretch="None" />
                 </Button.Content>
             </Button>
             <Button 
                 Command="{Binding ShowMainWindowCommand}"
                 Style="{StaticResource ImageFrameIcon}">
                 <Button.Content>
-                    <Image Source="pack://application:,,,/Images/Icons/home-16.png" Stretch="None" />
+                    <Image Source="{StaticResource HomeIconSmall}" Stretch="None" />
                 </Button.Content>
             </Button>
             <Button
                 Command="{Binding OpenSettingsCommand}"
                 Style="{StaticResource ImageFrameIcon}">
                 <Button.Content>
-                    <Image Source="pack://application:,,,/Images/Icons/settings-16.png" Stretch="None" />
+                    <Image Source="{StaticResource SettingsIconSmall}" Stretch="None" />
                 </Button.Content>
             </Button>
             <Button 
                 Command="{Binding DeleteCommand}"
                 Style="{StaticResource ImageFrameIcon}">
                 <Button.Content>
-                    <Image Source="pack://application:,,,/Images/Icons/trash-16.png" Stretch="None" />
+                    <Image Source="{StaticResource DeleteIconSmall}" Stretch="None" />
                 </Button.Content>
             </Button>
         </StackPanel>
@@ -125,7 +127,6 @@
                                         BlurRadius="9"/>
                 </Border.Effect>
 
-
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -135,8 +136,9 @@
                         Grid.Row="0"
                         Name="image"
                         Stretch="UniformToFill"
-                        Source="{Binding ImageFrameModel.ImagePath, FallbackValue={StaticResource DefaultFrameImage}, Converter={StaticResource ImageFilepathToBitmap}}"
-                        />
+                        Source="{Binding ImageFrameModel.ImagePath, 
+                        FallbackValue={StaticResource DefaultFrameImage}, 
+                        Converter={StaticResource ImageFilepathToBitmap}}"/>
 
                     <TextBox
                         Grid.Row="1"

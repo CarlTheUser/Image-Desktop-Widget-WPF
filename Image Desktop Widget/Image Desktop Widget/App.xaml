@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="Styles/Color.xaml"/>
                 <ResourceDictionary Source="Styles/Font.xaml"/>
                 <ResourceDictionary Source="Styles/Text.xaml"/>
+                <ResourceDictionary Source="Styles/Image.xaml"/>
                 <ResourceDictionary Source="Styles/Button.xaml"/>
                 <ResourceDictionary Source="Styles/CheckBox.xaml"/>
                 <ResourceDictionary Source="Styles/Slider.xaml"/>

@@ -2,18 +2,24 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using ViewComponent;
 
 namespace Image_Desktop_Widget
 {
     /// <summary>
     /// Interaction logic for ImageFrame.xaml
     /// </summary>
-    public partial class ImageFrame : Window, IClosable
+    public partial class ImageFrame : Window, IApplicationView, IClosable
     {
         
         public ImageFrame()
         {
             InitializeComponent();
+        }
+
+        public BaseViewModel GetModel()
+        {
+            return VM;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -75,5 +81,7 @@ namespace Image_Desktop_Widget
         {
             SystemCommands.CloseWindow(this);
         }
+
+        
     }
 }

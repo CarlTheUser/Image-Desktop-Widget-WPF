@@ -130,7 +130,7 @@
 
                                             <Button.Content>
                                                 <Image
-                                                Source="pack://application:,,,/Images/Icons/close-16.png" 
+                                                Source="{StaticResource CloseIconSmall}" 
                                                 Stretch="Uniform"/>
                                             </Button.Content>
                                         </Button>

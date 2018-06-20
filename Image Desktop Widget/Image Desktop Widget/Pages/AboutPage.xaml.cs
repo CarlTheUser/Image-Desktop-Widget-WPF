@@ -24,8 +24,11 @@ namespace Image_Desktop_Widget.Pages
         public AboutPage()
         {
             InitializeComponent();
-            this.DataContext = new AboutPageViewModel();
         }
-        
+
+        public override BaseViewModel GetModel()
+        {
+            return VM;
+        }
     }
 }

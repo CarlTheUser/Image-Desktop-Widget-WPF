@@ -2,10 +2,12 @@
 using System.Windows;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using ViewComponent;
+using Image_Desktop_Widget.ViewModels;
 
 namespace Image_Desktop_Widget.Pages
 {
-    public class BasePage : Page
+    public abstract class BasePage : Page, IApplicationView
     {
         public PageTransition PageEnterTransition { get; set; } = PageTransition.SlideAndFadeInFromRight;
 
@@ -21,6 +23,8 @@ namespace Image_Desktop_Widget.Pages
             
         }
 
+        public abstract BaseViewModel GetModel();
+        
         private async void BasePage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             await PlayPageEnterTransition();
@@ -51,6 +55,7 @@ namespace Image_Desktop_Widget.Pages
             }
             
         }
+
         
     }
 }

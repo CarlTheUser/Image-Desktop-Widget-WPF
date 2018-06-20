@@ -12,17 +12,23 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ViewComponent;
 
 namespace Image_Desktop_Widget
 {
     /// <summary>
     /// Interaction logic for FrameCreate.xaml
     /// </summary>
-    public partial class FrameCreate : Window, IClosable
+    public partial class FrameCreate : Window, IApplicationView, IClosable
     {
         public FrameCreate()
         {
             InitializeComponent();
+        }
+
+        public BaseViewModel GetModel()
+        {
+            return VM;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -35,5 +41,7 @@ namespace Image_Desktop_Widget
         {
             this.Close();
         }
+
+        
     }
 }

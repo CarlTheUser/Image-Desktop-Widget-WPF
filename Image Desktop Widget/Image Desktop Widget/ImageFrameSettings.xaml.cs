@@ -12,17 +12,23 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ViewComponent;
 
 namespace Image_Desktop_Widget
 {
     /// <summary>
     /// Interaction logic for ImageFrameSettings.xaml
     /// </summary>
-    public partial class ImageFrameSettings : Window, IClosable
+    public partial class ImageFrameSettings : Window, IApplicationView, IClosable
     {
         public ImageFrameSettings()
         {
             InitializeComponent();
+        }
+
+        public BaseViewModel GetModel()
+        {
+            return VM;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -32,15 +38,9 @@ namespace Image_Desktop_Widget
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (this.DataContext != null)
-            {
-                if (this.DataContext.GetType() == typeof(ImageFrameSettingViewModel))
-                {
-                    ImageFrameSettingViewModel viewModel = (ImageFrameSettingViewModel)this.DataContext;
-                    
-                    viewModel.Closable = this;
-                }
-            }
+            
         }
+
+        
     }
 }

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Image_Desktop_Widget"
         xmlns:conv="clr-namespace:Image_Desktop_Widget.Converters"
         xmlns:page="clr-namespace:Image_Desktop_Widget.Pages"
+        xmlns:viewmodels="clr-namespace:Image_Desktop_Widget.ViewModels"
         mc:Ignorable="d"
         Title="Image Desktop Widget Home" 
         MinHeight="350" 
@@ -34,6 +35,10 @@
         <conv:ApplicationPageToPageConverter x:Key="ApplicationPageToPageConverter"/>
         <conv:DrawingColorToMediaColorConverter x:Key="ColorConverter"/>
     </Window.Resources>
+
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel x:Name="VM"/>
+    </Window.DataContext>
     <DockPanel
         Name="WindowRootView"
         LastChildFill="True">
@@ -85,11 +90,7 @@
                     
                 </StackPanel>
                 
-
-
-                
             </Grid>
-            
             
         </Grid>
 
@@ -101,13 +102,8 @@
             <Frame.Background>
                 <VisualBrush>
                     <VisualBrush.Visual>
-                        <Image Stretch="UniformToFill">
-                            <Image.Source>
-                                <BitmapImage
-                                CacheOption="OnLoad"
-                                UriSource="pack://application:,,,/Images/Background.jpg"/>
-                            </Image.Source>
-                        </Image>
+                        <Image Stretch="UniformToFill"
+                               Source="{StaticResource CorkBackground}"/>
                     </VisualBrush.Visual>
                 </VisualBrush>
             </Frame.Background>

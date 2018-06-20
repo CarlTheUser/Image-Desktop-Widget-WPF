@@ -24,7 +24,11 @@ namespace Image_Desktop_Widget.Pages
         public ThemePage()
         {
             InitializeComponent();
-            this.DataContext = new ThemePageViewModel();
+        }
+
+        public override BaseViewModel GetModel()
+        {
+            return VM;
         }
     }
 }
