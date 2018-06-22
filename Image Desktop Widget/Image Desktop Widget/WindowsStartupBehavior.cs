@@ -14,14 +14,19 @@ namespace Image_Desktop_Widget
         private static readonly string AppName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
         public override bool IsRunAtStartup => Properties.Settings.Default.AllowStartup;
-
+        
+        private RegistryKey GetApplicationStartUpKey()
+        {
+            return Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+        }
+        
         public override void RunAtStartup(bool enabled)
         {
-            if(enabled)
+            if(IsUserAdministrator())
             {
-                if (IsUserAdministrator())
+                if(enabled)
                 {
-                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                    using (RegistryKey key = GetApplicationStartUpKey())
                     {
                         try
                         {
@@ -36,13 +41,9 @@ namespace Image_Desktop_Widget
                         }
                     }
                 }
-                else OnRunAtStartupSet(false, Properties.Settings.Default.AllowStartup);
-            }
-            else
-            {
-                if (IsUserAdministrator())
+                else
                 {
-                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                    using (RegistryKey key = GetApplicationStartUpKey())
                     {
                         try
                         {
@@ -57,7 +58,10 @@ namespace Image_Desktop_Widget
                         }
                     }
                 }
-                else OnRunAtStartupSet(false, Properties.Settings.Default.AllowStartup);
+            }
+            else
+            {
+                OnRunAtStartupSet(false, Properties.Settings.Default.AllowStartup);
             }
         }
         

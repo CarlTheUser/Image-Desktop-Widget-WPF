@@ -38,8 +38,6 @@ namespace ViewComponent
 
     //implemented by view (Winform, Page, etc)
     //that will use a viewmodel
-    //might as well create a viewmodel in the constrcutor
-    //so we can assume all class that inherit can not have a null vm
     public interface IApplicationView
     {
         BaseViewModel GetModel();

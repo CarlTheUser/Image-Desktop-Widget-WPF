@@ -17,18 +17,21 @@ namespace Image_Desktop_Widget
 
         protected void OnRunAtStartupSet(bool isSuccessful, bool currentValue)
         {
-            RunAtStartupSet?.Invoke(this, new StartupBehaviorEventArgs
-            {
-                StartupEnabledChanged = isSuccessful,
-                CurrentStartupValue = currentValue
-            });
+            RunAtStartupSet?.Invoke(this, new StartupBehaviorEventArgs(isSuccessful, currentValue));
         }
 
         public class StartupBehaviorEventArgs : EventArgs
         {
-            public bool StartupEnabledChanged { get; set; }
+            public bool StartupEnabledChanged { get; }
 
-            public bool CurrentStartupValue { get; set; }
+            public bool CurrentStartupValue { get; }
+
+            public StartupBehaviorEventArgs(bool startupEnabledChanged, bool currentvalue)
+            {
+                StartupEnabledChanged = startupEnabledChanged;
+                CurrentStartupValue = currentvalue;
+            }
+            
         }
 
     }

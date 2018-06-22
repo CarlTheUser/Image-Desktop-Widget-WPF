@@ -13,6 +13,7 @@ namespace Image_Desktop_Widget
     {
 
         #region Credits
+
         //Code from
         //https://github.com/riverar/sample-win10-aeroglass
 
@@ -38,7 +39,7 @@ namespace Image_Desktop_Widget
         //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         //SOFTWARE.
 
-        //Changes Made = Made into an Extension method class
+        //Changes Made => Made into an Extension method class
 
         #endregion
 
