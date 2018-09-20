@@ -29,6 +29,7 @@
     <Window.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
         <conv:ImageFilepathToBitmapConverter x:Key="ImageFilepathToBitmap"/>
+        <conv:IFrameShadowToDropShadowEffectConverter x:Key="ShadowConverter"/>
         <BitmapImage 
             x:Key="DefaultFrameImage"
             UriSource="pack://application:,,,/Images/test.jpg"/>
@@ -111,21 +112,14 @@
                 UseLayoutRounding="True"
                 Background="{StaticResource DarkGrayBrush}"
                 BorderThickness="{Binding ImageFrameModel.FrameThickness, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=10}"
-                BorderBrush="{StaticResource DirtyWhiteBrush}">
+                BorderBrush="{StaticResource DirtyWhiteBrush}"
+                Effect="{Binding Path=ImageFrameModel.FrameShadow,  Converter={StaticResource ShadowConverter}, UpdateSourceTrigger=PropertyChanged}">
                 <Border.LayoutTransform>
                     <RotateTransform 
                         CenterX="0.5"
                         CenterY="0.5"
                         Angle="{Binding ImageFrameModel.RotationAngle, FallbackValue=0}"/>
                 </Border.LayoutTransform>
-                <Border.Effect>
-                    <DropShadowEffect
-                                        Color="#000"
-                                        Opacity=".4"
-                                        Direction="270"
-                                        ShadowDepth="4"
-                                        BlurRadius="9"/>
-                </Border.Effect>
 
                 <Grid>
                     <Grid.RowDefinitions>

@@ -94,7 +94,16 @@ namespace DataLayer.ModelService.XMLServices
                     new XAttribute("LocationY", model.LocationY),
                     new XAttribute("FrameThickness", model.FrameThickness),
                     new XAttribute("RotateAngle", model.RotateAngle),
-                    new XElement("Caption", model.Caption, new XAttribute("Enabled", model.EnableCaption), new XAttribute("Text", model.Caption))
+                    new XElement("Caption",
+                        new XAttribute("Enabled", model.EnableCaption), 
+                        new XAttribute("Text", model.Caption)),
+                    new XElement("Shadow", 
+                        new XAttribute("Enabled", model.EnableShadow),
+                        new XAttribute("Opacity", model.ShadowOpacity),
+                        new XAttribute("Depth", model.ShadowDepth),
+                        new XAttribute("Direction", model.ShadowDirection),
+                        new XAttribute("BlurRadius", model.ShadowBlurRadius))
+
                 );
 
                 UserImages.AddFirst(element);
@@ -129,8 +138,15 @@ namespace DataLayer.ModelService.XMLServices
             userImage.SetAttributeValue("LocationY", updatedModel.LocationY);
             userImage.SetAttributeValue("FrameThickness", updatedModel.FrameThickness);
             userImage.SetAttributeValue("RotateAngle", updatedModel.RotateAngle);
+
             userImage.Element("Caption").SetAttributeValue("Enabled", updatedModel.EnableCaption);
             userImage.Element("Caption").SetAttributeValue("Text", updatedModel.Caption);
+
+            userImage.Element("Shadow").SetAttributeValue("Enabled", updatedModel.EnableShadow);
+            userImage.Element("Shadow").SetAttributeValue("Opacity", updatedModel.ShadowOpacity);
+            userImage.Element("Shadow").SetAttributeValue("Depth", updatedModel.ShadowDepth);
+            userImage.Element("Shadow").SetAttributeValue("Direction", updatedModel.ShadowDirection);
+            userImage.Element("Shadow").SetAttributeValue("BlurRadius", updatedModel.ShadowBlurRadius);
 
             document.Save(XML_DOCUMENT_LOCATION);
             
@@ -173,8 +189,19 @@ namespace DataLayer.ModelService.XMLServices
                 returnValue.LocationY = (double)userImage.Attribute("LocationY");
                 returnValue.FrameThickness = (int)userImage.Attribute("FrameThickness");
                 returnValue.RotateAngle = int.Parse(userImage.Attribute("RotateAngle").Value);
-                returnValue.Caption = userImage.Element("Caption").Attribute("Text").Value != null ? userImage.Element("Caption").Attribute("Text").Value : "";
-                returnValue.EnableCaption = (bool)userImage.Element("Caption").Attribute("Enabled");
+                
+                XElement captionElement = userImage.Element("Caption");
+
+                returnValue.Caption = captionElement.Attribute("Text")?.Value ?? ""; 
+                returnValue.EnableCaption = (bool)captionElement.Attribute("Enabled");
+
+                XElement shadowElement = userImage.Element("Shadow");
+
+                returnValue.EnableShadow = (bool)shadowElement.Attribute("Enabled");
+                returnValue.ShadowOpacity = (double)shadowElement.Attribute("Opacity");
+                returnValue.ShadowDepth = (double)shadowElement.Attribute("Depth");
+                returnValue.ShadowDirection = (double)shadowElement.Attribute("Direction");
+                returnValue.ShadowBlurRadius = (double)shadowElement.Attribute("BlurRadius");
             }
 
             return returnValue;
@@ -198,11 +225,22 @@ namespace DataLayer.ModelService.XMLServices
                               let locationY = (double)image.Attribute("LocationY")
                               let frameThickness = (int)image.Attribute("FrameThickness")
                               let rotateAngle = (int)image.Attribute("RotateAngle")
+
                               let captionElement = image.Element("Caption")
+
                               let captionText = captionElement.Attribute("Text") != null ? captionElement.Attribute("Text").Value : ""
                               let captionEnabled = (bool)captionElement.Attribute("Enabled")
 
-                              select new FramedImageModel
+                              let shadowElement = image.Element("Shadow") ?? null
+
+                              let shadowEnabled = (bool)shadowElement.Attribute("Enabled")
+                              let shadowOpacity = (double)shadowElement.Attribute("Opacity")
+                              let shadowDepth = (double)shadowElement.Attribute("Depth")
+                              let shadowDirection = (double)shadowElement.Attribute("Direction")
+                              let shadowBlurRadius = (double)shadowElement.Attribute("BlurRadius")
+
+
+            select new FramedImageModel
                               {
                                   Id = id,
                                   Filename = filename,
@@ -213,7 +251,12 @@ namespace DataLayer.ModelService.XMLServices
                                   FrameThickness = frameThickness,
                                   RotateAngle = rotateAngle,
                                   Caption = captionText,
-                                  EnableCaption = captionEnabled
+                                  EnableCaption = captionEnabled,
+                                  EnableShadow = shadowEnabled,
+                                  ShadowOpacity = shadowOpacity,
+                                  ShadowDepth = shadowDepth,
+                                  ShadowDirection = shadowDirection,
+                                  ShadowBlurRadius = shadowBlurRadius
                               }).ToList();
 
             return userImagesList;

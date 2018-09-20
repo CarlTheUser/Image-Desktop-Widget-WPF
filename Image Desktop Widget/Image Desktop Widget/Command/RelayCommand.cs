@@ -9,25 +9,34 @@ namespace Image_Desktop_Widget.Command
 {
     public class RelayCommand : ICommand
     {
-        public event EventHandler CanExecuteChanged = (s, e) => { };
-
-        private Action action;
-
-        public Func<bool> CanExecuteFunc { get; set; } = null;
-
-        public RelayCommand(Action action)
+        public event EventHandler CanExecuteChanged
         {
-            this.action = action;
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        readonly Action Command;
+
+        readonly Func<bool> IsExecutable;
+
+        public RelayCommand(Action commandAction) : this(commandAction, null) { }
+
+        public RelayCommand(Action commandAction, Func<bool> isExecutable)
+        {
+            if (commandAction == null) throw new ArgumentNullException("commandAction");
+
+            Command = commandAction;
+            IsExecutable = isExecutable;
         }
 
         public bool CanExecute(object parameter)
         {
-            return CanExecuteFunc == null ? true : CanExecuteFunc.Invoke();
+            return IsExecutable == null ? true : IsExecutable.Invoke();
         }
 
         public void Execute(object parameter)
         {
-            action.Invoke();
+            Command.Invoke();
         }
     }
 }

@@ -76,7 +76,7 @@
                         Padding="0 3"
                         TextWrapping="Wrap"
                         TextAlignment="Center"
-                        Text="{Binding Caption}"
+                        Text="{Binding ImageFrameModel.Caption}"
                         Foreground="#323232"
                         FontSize="14"
                     Style="{StaticResource ImageCaptionTextBox}"

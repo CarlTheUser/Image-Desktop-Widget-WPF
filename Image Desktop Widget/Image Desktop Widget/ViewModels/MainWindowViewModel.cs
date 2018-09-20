@@ -24,18 +24,14 @@ namespace Image_Desktop_Widget.ViewModels
         public MainWindowViewModel()
         {
             CurrentPage = ApplicationPage.MainPage;
-            ChangePageCommand = new RelayParameterizedCommand(ChangePage);
+            ChangePageCommand = new RelayParameterizedCommand<ApplicationPage>(ChangePage);
         }
 
-        private void ChangePage(object newPage)
+        private void ChangePage(ApplicationPage newPage)
         {
-            if (newPage != null)
+            if (newPage != CurrentPage)
             {
-                if (newPage.GetType() == typeof(ApplicationPage))
-                {
-                    ApplicationPage page = (ApplicationPage)newPage;
-                    if (CurrentPage != page) CurrentPage = page; 
-                }
+                CurrentPage = newPage;
             }
         }
 

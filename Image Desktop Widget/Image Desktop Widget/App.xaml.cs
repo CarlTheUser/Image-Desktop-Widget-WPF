@@ -86,7 +86,7 @@ namespace Image_Desktop_Widget
                     {
 
                         ImageFrameModel model = ImageFrameModel
-                            .FromPersistentStorage(
+                            .Existing(
                             framedImageDataItem.Id,
                             framedImageDataItem.ImageFilepath,
                             framedImageDataItem.Caption,
@@ -96,7 +96,12 @@ namespace Image_Desktop_Widget
                             framedImageDataItem.FrameThickness,
                             framedImageDataItem.LocationX,
                             framedImageDataItem.LocationY,
-                            framedImageDataItem.RotateAngle
+                            framedImageDataItem.RotateAngle,
+                            framedImageDataItem.EnableShadow,
+                            framedImageDataItem.ShadowOpacity,
+                            framedImageDataItem.ShadowDepth,
+                            framedImageDataItem.ShadowDirection,
+                            framedImageDataItem.ShadowBlurRadius
                             );
 
                         ImageFrame imageFrame = new ImageFrame();

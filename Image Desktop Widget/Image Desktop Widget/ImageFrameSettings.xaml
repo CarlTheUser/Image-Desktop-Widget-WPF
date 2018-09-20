@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Image_Desktop_Widget"
         xmlns:viewmodels="clr-namespace:Image_Desktop_Widget.ViewModels"
+        xmlns:conv="clr-namespace:Image_Desktop_Widget.Converters"
         MouseDown="Window_MouseDown"
         mc:Ignorable="d"
         Title="ImageFrameSettings"
         Width="300"
-        Height="170"
+        Height="300"
         MinWidth="300"
         MinHeight="170"
         MaxWidth="300"
-        MaxHeight="170"
         Loaded="Window_Loaded"
+        SizeToContent="Height"
         Style="{StaticResource BorderlessWindow}"
         Left="{Binding ImageFrameModel.LocationX, Mode=OneTime}"
         Top="{Binding ImageFrameModel.LocationY, Mode=OneTime}"
@@ -28,6 +29,7 @@
         </Style>
         <Style TargetType="Slider"
                BasedOn="{StaticResource FlatSlider}"/>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
     </Window.Resources>
     <Window.DataContext>
         <viewmodels:ImageFrameSettingViewModel x:Name="VM"/>
@@ -78,28 +80,17 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-
-
-                    <TextBlock 
-                        Grid.Column="0"
-                        Grid.Row="0"
-                        Text="Enable caption"/>
-                    <CheckBox
-                        Grid.Column="1"
-                        Grid.Row="0"
-                        IsChecked="{Binding ImageFrameModel.CaptionEnabled}"
-                        Style="{StaticResource ToggleCheckBox}"
-                        Margin="0 0 10 0"
-                        HorizontalAlignment="Right"/>
-
+                    
                     <TextBlock
                         Grid.Column="0"
-                        Grid.Row="1"
+                        Grid.Row="0"
                         Text="Rotation"/>
                     <Slider
                         Grid.Column="1"
-                        Grid.Row="1"
+                        Grid.Row="0"
                         Value="{Binding ImageFrameModel.RotationAngle}"
                         Interval="1"
                         Minimum="0"
@@ -109,12 +100,12 @@
 
                     <TextBlock
                         Grid.Column="0"
-                        Grid.Row="2"
+                        Grid.Row="1"
                         Text="Frame Thickness"/>
 
                     <Slider
                         Grid.Column="1"
-                        Grid.Row="2"
+                        Grid.Row="1"
                         Value="{Binding ImageFrameModel.FrameThickness, Mode=TwoWay}"
                         Interval="1"
                         Minimum="0"
@@ -122,8 +113,106 @@
                         Margin="5"
                         MinWidth="120"/>
 
+                    <TextBlock 
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        Text="Enable caption"/>
+                    <CheckBox
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        IsChecked="{Binding ImageFrameModel.CaptionEnabled}"
+                        Style="{StaticResource ToggleCheckBox}"
+                        Margin="0 0 10 0"
+                        HorizontalAlignment="Right"/>
 
+                    <TextBlock 
+                        Grid.Column="0"
+                        Grid.Row="3"
+                        Text="Shadows"/>
+                    <CheckBox
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        IsChecked="{Binding ImageFrameModel.FrameShadow.Enabled}"
+                        Style="{StaticResource ToggleCheckBox}"
+                        Margin="0 5 10 0"
+                        HorizontalAlignment="Right"/>
+                    <Grid Grid.Row="4"
+                          Grid.ColumnSpan="2"
+                          Visibility="{Binding Path=ImageFrameModel.FrameShadow.Enabled, Converter={StaticResource BoolToVisibility}}"
+                          Margin="20 0 0 0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Text="Opacity"/>
+                        <Slider
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Value="{Binding ImageFrameModel.FrameShadow.Opacity}"
+                            Minimum="0"
+                            Maximum="1"
+                            Margin="5"
+                            MinWidth="120"/>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            Text="Depth"/>
+                        <Slider
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Value="{Binding ImageFrameModel.FrameShadow.Depth}"
+                            Interval="1"
+                            Minimum="0"
+                            Maximum="20"
+                            Margin="5"
+                            MinWidth="120"/>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            Text="Direction"/>
+                        <Slider
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            Value="{Binding ImageFrameModel.FrameShadow.Direction}"
+                            Interval="1"
+                            Minimum="0"
+                            Maximum="360"
+                            Margin="5"
+                            MinWidth="120"/>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Grid.Row="3"
+                            Text="Blur Radius"/>
+                        <Slider
+                            Grid.Column="1"
+                            Grid.Row="3"
+                            Value="{Binding ImageFrameModel.FrameShadow.BlurRadius}"
+                            Interval="1"
+                            Minimum="0"
+                            Maximum="20"
+                            Margin="5"
+                            MinWidth="120"/>
+
+                    </Grid>
+                    
+                    
                 </Grid>
+                
 
                 <StackPanel Grid.Row="2"
                             Orientation="Horizontal"

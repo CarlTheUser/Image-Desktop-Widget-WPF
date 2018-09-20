@@ -3,19 +3,6 @@ namespace DataLayer.Client.Data
 {
     public sealed class FramedImageDTO
     {
-        //typical DTO here
-        //DTOs are use to transfer data
-        //from a layer to another layer
-        //without directly exposing
-        //business objects to the client side.
-        //imagine in PHP / ASP.NET
-        //wherein you pass on JSON objects
-        //over the net and then
-        //the client side recieves
-        //pure data without behaviors using JS.
-        //unless you directly echo html elements from the server
-        // <expanding brain meme here> which violates
-        //the separation of UI and the business logic.
 
         public int Id { get; set; }
 
@@ -30,5 +17,11 @@ namespace DataLayer.Client.Data
         public int RotateAngle { get; set; }
         public string Caption { get; set; }
         public bool EnableCaption { get; set; }
+
+        public bool EnableShadow { get; set; }
+        public double ShadowOpacity { get; set; }
+        public double ShadowDepth { get; set; }
+        public double ShadowDirection { get; set; }
+        public double ShadowBlurRadius { get; set; }
     }
 }

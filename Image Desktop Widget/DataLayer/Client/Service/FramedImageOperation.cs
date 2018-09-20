@@ -89,7 +89,12 @@ namespace DataLayer.Client.Service
                             FrameThickness = framedImage.FrameThickness,
                             RotateAngle = framedImage.RotateAngle,
                             Caption = framedImage.Caption,
-                            EnableCaption = framedImage.EnableCaption
+                            EnableCaption = framedImage.EnableCaption,
+                            EnableShadow = framedImage.EnableShadow,
+                            ShadowOpacity = framedImage.ShadowOpacity,
+                            ShadowDepth = framedImage.ShadowDepth,
+                            ShadowDirection = framedImage.ShadowDirection,
+                            ShadowBlurRadius = framedImage.ShadowBlurRadius
                         };
 
                         framedImagedPersistence.Save(model);
@@ -141,7 +146,12 @@ namespace DataLayer.Client.Service
                             FrameThickness = framedImage.FrameThickness,
                             RotateAngle = framedImage.RotateAngle,
                             Caption = framedImage.Caption,
-                            EnableCaption = framedImage.EnableCaption
+                            EnableCaption = framedImage.EnableCaption,
+                            EnableShadow = framedImage.EnableShadow,
+                            ShadowOpacity = framedImage.ShadowOpacity,
+                            ShadowDepth = framedImage.ShadowDepth,
+                            ShadowDirection = framedImage.ShadowDirection,
+                            ShadowBlurRadius = framedImage.ShadowBlurRadius
                         });
                 }
                 catch(Exception ex)
@@ -234,7 +244,12 @@ namespace DataLayer.Client.Service
                                    FrameThickness = model.FrameThickness,
                                    RotateAngle = model.RotateAngle,
                                    Caption = model.Caption,
-                                   EnableCaption = model.EnableCaption
+                                   EnableCaption = model.EnableCaption,
+                                   EnableShadow = model.EnableShadow,
+                                   ShadowOpacity = model.ShadowOpacity,
+                                   ShadowDepth = model.ShadowDepth,
+                                   ShadowDirection = model.ShadowDirection,
+                                   ShadowBlurRadius = model.ShadowBlurRadius
                                }).ToList();
             }
             catch (Exception ex)

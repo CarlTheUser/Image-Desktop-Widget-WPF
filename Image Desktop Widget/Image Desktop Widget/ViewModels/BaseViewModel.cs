@@ -19,7 +19,7 @@ namespace Image_Desktop_Widget.ViewModels
             set
             {
                 if(!ParametersReceived)     //Parameters can only be set once
-                {                           //and ignore succeeding  set unles null
+                {                           //and ignore succeeding set unles null
                     if (value != null)
                     {
                         OnParametersReceived(parameters = value);

@@ -1,6 +1,7 @@
 ﻿using DataLayer.Client.Data;
 using DataLayer.Client.Service;
 using System;
+using System.ComponentModel;
 
 namespace Image_Desktop_Widget.Model
 {
@@ -24,9 +25,24 @@ namespace Image_Desktop_Widget.Model
 
         #region FactoryMethods
 
-        public static ImageFrameModel FromPersistentStorage(int id, string imagePath, string caption, bool captionEnabled, double width, double height, int frameThickness, double locationX, double locationY, int rotationAngle)
+        public static ImageFrameModel Existing(
+            int id, 
+            string imagePath, 
+            string caption, 
+            bool captionEnabled, 
+            double width, 
+            double height, 
+            int frameThickness, 
+            double locationX, 
+            double locationY, 
+            int rotationAngle,
+            bool shadowEnabled,
+            double shadowOpacity,
+            double shadowDepth,
+            double shadowDirection,
+            double shadowBlurRadius)
         {
-            return new ImageFrameModel(id, imagePath, caption, captionEnabled, width, height, frameThickness, locationX, locationY, rotationAngle)
+            return new ImageFrameModel(id, imagePath, caption, captionEnabled, width, height, frameThickness, locationX, locationY, rotationAngle, shadowEnabled, shadowOpacity, shadowDepth, shadowDirection, shadowBlurRadius)
             {
                 State = ModelState.Old
             };
@@ -46,7 +62,22 @@ namespace Image_Desktop_Widget.Model
 
         private ImageFrameModel() { }
 
-        private ImageFrameModel(int id, string imagePath, string caption, bool captionEnabled, double width, double height, int frameThickness, double locationX, double locationY, int rotationAngle) : this()
+        private ImageFrameModel(
+            int id, 
+            string imagePath, 
+            string caption, 
+            bool captionEnabled, 
+            double width, 
+            double height, 
+            int frameThickness, 
+            double locationX, 
+            double locationY, 
+            int rotationAngle,
+            bool shadowEnabled,
+            double shadowOpacity,
+            double shadowDepth,
+            double shadowDirection,
+            double shadowBlurRadius) : this()
         {
             Id = id;
             ImagePath = imagePath;
@@ -58,6 +89,11 @@ namespace Image_Desktop_Widget.Model
             LocationX = locationX;
             LocationY = locationY;
             RotationAngle = rotationAngle;
+            FrameShadow.Enabled = shadowEnabled;
+            FrameShadow.Opacity = shadowOpacity;
+            FrameShadow.Depth = shadowDepth;
+            FrameShadow.Direction = shadowDirection;
+            FrameShadow.BlurRadius = shadowBlurRadius;
         }
 
         #endregion
@@ -184,6 +220,11 @@ namespace Image_Desktop_Widget.Model
             }
         }
 
+        private Shadow shadow = new Shadow();
+
+        public Shadow FrameShadow { get => shadow; }
+
+
         #endregion
 
         #region OverridenBehaviors
@@ -193,12 +234,25 @@ namespace Image_Desktop_Widget.Model
         private bool? caption_enabled_backup = null;
         private int? rotation_angle_backup = null;
 
+        private bool? shadow_enabled_backup = null;
+        private double? shadow_opacity_backup = null;
+        private double? shadow_depth_backup = null;
+        private double? shadow_direction_backup = null;
+        private double? shadow_blur_radius_backup = null;
+
+
         protected override void BackupProperties()
         {
             caption_backup = caption;
             frame_thickness_backup = frameThickness;
             caption_enabled_backup = captionEnabled;
             rotation_angle_backup = rotationAngle;
+
+            shadow_enabled_backup = FrameShadow?.Enabled ?? false;
+            shadow_opacity_backup = FrameShadow?.Opacity ?? 0;
+            shadow_depth_backup = FrameShadow?.Depth ?? 0;
+            shadow_direction_backup = FrameShadow?.Direction ?? 0;
+            shadow_blur_radius_backup = FrameShadow?.BlurRadius ?? 0;
         }
 
         protected override void RestoreProperties()
@@ -207,6 +261,16 @@ namespace Image_Desktop_Widget.Model
             FrameThickness = frame_thickness_backup.Value;
             CaptionEnabled = caption_enabled_backup.Value;
             RotationAngle = rotation_angle_backup.Value;
+
+            if (FrameShadow != null)
+            {
+                FrameShadow.Enabled = shadow_enabled_backup.Value;
+                FrameShadow.Opacity = shadow_opacity_backup.Value;
+                FrameShadow.Depth = shadow_depth_backup.Value;
+                FrameShadow.Direction = shadow_direction_backup.Value;
+                FrameShadow.BlurRadius = shadow_blur_radius_backup.Value;
+            }
+
         }
 
         protected override void ClearPropertyBackups()
@@ -215,6 +279,9 @@ namespace Image_Desktop_Widget.Model
             frame_thickness_backup = null;
             caption_enabled_backup = null;
             rotation_angle_backup = null;
+            shadow_enabled_backup = null;
+            shadow_opacity_backup = shadow_depth_backup = shadow_direction_backup = shadow_blur_radius_backup = null;
+
         }
 
         protected override void SaveMethod()
@@ -250,9 +317,109 @@ namespace Image_Desktop_Widget.Model
                 Height = height,
                 LocationX = location_x,
                 LocationY = location_y,
-                RotateAngle = rotationAngle
+                RotateAngle = rotationAngle,
+                EnableShadow = FrameShadow?.Enabled ?? false,
+                ShadowOpacity = FrameShadow ?.Opacity ?? 0,
+                ShadowDepth = FrameShadow ?.Depth ?? 0,
+                ShadowDirection = FrameShadow ?.Direction ?? 0,
+                ShadowBlurRadius = FrameShadow ?.BlurRadius ?? 0
             };
         }
+        
+        public sealed class Shadow : INotifyPropertyChanged
+        {
 
+            private static readonly bool DEFAULT_ENABLE = true;
+
+            private static readonly double DEFAULT_OPACITY = .4;
+
+            private static readonly double DEFAULT_DEPTH = 3;
+
+            private static readonly double DEFAULT_DIRECTION = 270;
+
+            private static readonly double DEFAULT_BLUR_RADIUS = 6;
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            private bool enabled = DEFAULT_ENABLE;
+
+            public bool Enabled
+            {
+                get => enabled;
+                set
+                {
+                    enabled = value;
+                    OnPropertyChanged("Enabled");
+                }
+            }
+
+            private double opacity = DEFAULT_OPACITY;
+
+            public double Opacity
+            {
+                get => opacity;
+                set
+                {
+                    opacity = value;
+                    OnPropertyChanged("Opacity");
+                }
+            }
+
+            private double depth = DEFAULT_DEPTH;
+
+            public double Depth
+            {
+                get => depth;
+                set
+                {
+                    depth = value;
+                    OnPropertyChanged("Depth");
+                }
+            }
+
+            private double direction = DEFAULT_DIRECTION;
+
+            public double Direction
+            {
+                get => direction;
+                set
+                {
+                    direction = value;
+                    OnPropertyChanged("Direction");
+                }
+            }
+
+            private double blurRadius = DEFAULT_BLUR_RADIUS;
+
+            public double BlurRadius
+            {
+                get => blurRadius;
+                set
+                {
+                    blurRadius = value;
+                    OnPropertyChanged("BlurRadius");
+                }
+            }
+
+            public Shadow()
+            {
+
+            }
+
+            public Shadow(bool enabled, double opacity, double depth, double direction, double blurRadius)
+            {
+                Enabled = enabled;
+                Opacity = opacity;
+                Depth = depth;
+                Direction = direction;
+                BlurRadius = blurRadius;
+            }
+
+            private void OnPropertyChanged(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+            
+        }
     }
 }

@@ -16,20 +16,15 @@ namespace Image_Desktop_Widget.ViewModels
         {
             ThemeColors = new ObservableCollection<Color>(ThemeOption.GetThemeColors());
 
-            SetColorCommand = new RelayParameterizedCommand(SetColor);
+            SetColorCommand = new RelayParameterizedCommand<Color>(SetColor);
         }
 
-        private void SetColor(object value)
+        private void SetColor(Color value)
         {
             if(value != null)
             {
-
-                if(value.GetType() == typeof(Color))
-                {
-                    Properties.Settings.Default.ThemeColor = (Color)value;
-                    Properties.Settings.Default.Save();
-                }
-
+                Properties.Settings.Default.ThemeColor = value;
+                Properties.Settings.Default.Save();
             }
         }
     }

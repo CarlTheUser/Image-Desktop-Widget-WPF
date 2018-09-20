@@ -98,7 +98,9 @@
     <Compile Include="Converters\ApplicationPageToPageConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DrawingColorToMediaColorConverter.cs" />
+    <Compile Include="Converters\IFrameShadowToDropShadowEffectConverter.cs" />
     <Compile Include="Converters\ImageFilepathToBitmapConverter.cs" />
+    <Compile Include="Converters\ImageFrameShadowOpacityConverter.cs" />
     <Compile Include="FrameCreate.xaml.cs">
       <DependentUpon>FrameCreate.xaml</DependentUpon>
     </Compile>

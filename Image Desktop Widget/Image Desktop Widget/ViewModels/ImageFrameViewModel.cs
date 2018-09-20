@@ -63,7 +63,13 @@ namespace Image_Desktop_Widget.ViewModels
                 ImageFrameModel = (ImageFrameModel)param[IMAGE_FRAME_MODEL_PARAMETER];
                 ImageFrameModel.ErrorOccured += ImageFrameModel_ErrorOccured;
                 ImageFrameModel.Deleted += ImageFrameModel_Deleted;
+                imageFrameModel.FrameShadow.PropertyChanged += FrameShadow_PropertyChanged;
             }
+        }
+
+        private void FrameShadow_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged("ImageFrameModel");
         }
 
         private void ShowMainWindow()
