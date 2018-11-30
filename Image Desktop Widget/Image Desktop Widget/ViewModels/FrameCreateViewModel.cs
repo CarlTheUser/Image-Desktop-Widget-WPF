@@ -28,34 +28,27 @@ namespace Image_Desktop_Widget.ViewModels
             ImageFrameModel = ImageFrameModel.NewInstance();
             ImageFrameModel.Saved += ImageFrameModel_Saved;
             ImageFrameModel.ErrorOccured += ImageFrameModel_ErrorOccured;
-            SaveCommand = new RelayCommand(save);
+            SaveCommand = new RelayCommand(Save);
             notification = new MessagePopupNotification();
         }
 
         protected override void OnParametersReceived(IDictionary<string, object> param)
         {
             base.OnParametersReceived(param);
-            try
+            if(param.TryGetValue(IMAGE_FILE_PATH_PARAMETER, out object imagePath))
             {
-                if (param.ContainsKey(IMAGE_FILE_PATH_PARAMETER))
-                    ImageFrameModel.ImagePath = (string)param[IMAGE_FILE_PATH_PARAMETER];
-
-                if (param.ContainsKey(CLOSABLE_PARAMETER))
-                    Closable = (IClosable)param[CLOSABLE_PARAMETER];
+                ImageFrameModel.ImagePath = (string)imagePath;
             }
-            catch (Exception ex)
+            if(param.TryGetValue(CLOSABLE_PARAMETER, out object closable))
             {
-                ILogger logger = TextLogger.GetInstance(DataLayer.Configuration.Instance.TextLogsPath);
-                ExceptionLogger el = new ExceptionLogger(logger);
-                el.LogException(ex);
-                notification.Notify("An error occured.");
+                Closable = (IClosable)closable;
             }
         }
         
         private void ImageFrameModel_Saved(object sender, EventArgs e)
         {
-            Closable.Close();
             new ImageFrameViewLauncher(ImageFrameModel).Launch();
+            Closable.Close();
         }
 
         private void ImageFrameModel_ErrorOccured(object sender, Model.Model.ErrorOccuredEventArgs e)
@@ -63,10 +56,11 @@ namespace Image_Desktop_Widget.ViewModels
             notification.Notify(e.Message);
         }
 
-        private void save()
+        private void Save()
         {
             ImageFrameModel.Save();
         }
+
         private class ImageFrameViewLauncher : IViewLauncher
         {
             public ImageFrameModel ImageFrameModel { get; set; }

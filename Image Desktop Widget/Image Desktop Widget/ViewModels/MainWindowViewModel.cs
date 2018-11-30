@@ -34,8 +34,5 @@ namespace Image_Desktop_Widget.ViewModels
                 CurrentPage = newPage;
             }
         }
-
-
-
     }
 }

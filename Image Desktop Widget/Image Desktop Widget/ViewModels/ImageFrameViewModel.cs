@@ -58,9 +58,9 @@ namespace Image_Desktop_Widget.ViewModels
         protected override void OnParametersReceived(IDictionary<string, object> param)
         {
             base.OnParametersReceived(param);
-            if(param.ContainsKey(IMAGE_FRAME_MODEL_PARAMETER))
+            if(param.TryGetValue(IMAGE_FRAME_MODEL_PARAMETER, out object imageFrame))
             {
-                ImageFrameModel = (ImageFrameModel)param[IMAGE_FRAME_MODEL_PARAMETER];
+                ImageFrameModel = (ImageFrameModel)imageFrame;
                 ImageFrameModel.ErrorOccured += ImageFrameModel_ErrorOccured;
                 ImageFrameModel.Deleted += ImageFrameModel_Deleted;
                 imageFrameModel.FrameShadow.PropertyChanged += FrameShadow_PropertyChanged;
@@ -134,7 +134,7 @@ namespace Image_Desktop_Widget.ViewModels
         }
 
 
-        //wrapper class for settings view (don't let the ViewModel directly know view specifics
+        //wrapper class for settings view (don't let the ViewModel directly know view specifics)
         private class SettingsViewLauncher : IViewLauncher
         {
             ImageFrameModel ImageFrameModel { get; set; }
