@@ -107,7 +107,12 @@ namespace DataLayer.ModelService.XMLServices
                 );
 
                 UserImages.AddFirst(element);
-                document.Save(XML_DOCUMENT_LOCATION);
+
+                using(Stream fs = new FileStream(XML_DOCUMENT_LOCATION, FileMode.Create, FileAccess.ReadWrite, FileShare.None, 1024, FileOptions.WriteThrough))
+                {
+                    document.Save(fs);
+                }
+                
             }
             catch
             {
@@ -148,8 +153,11 @@ namespace DataLayer.ModelService.XMLServices
             userImage.Element("Shadow").SetAttributeValue("Direction", updatedModel.ShadowDirection);
             userImage.Element("Shadow").SetAttributeValue("BlurRadius", updatedModel.ShadowBlurRadius);
 
-            document.Save(XML_DOCUMENT_LOCATION);
-            
+            using (Stream fs = new FileStream(XML_DOCUMENT_LOCATION, FileMode.Create, FileAccess.ReadWrite, FileShare.None, 1024, FileOptions.WriteThrough))
+            {
+                document.Save(fs);
+            }
+
         }
 
         public override void Delete(int id)
@@ -161,7 +169,10 @@ namespace DataLayer.ModelService.XMLServices
                 .Where(x => x.Attribute("Id").Value == id.ToString())
                 .Remove();
 
-            document.Save(XML_DOCUMENT_LOCATION);
+            using (Stream fs = new FileStream(XML_DOCUMENT_LOCATION, FileMode.Create, FileAccess.ReadWrite, FileShare.None, 1024, FileOptions.WriteThrough))
+            {
+                document.Save(fs);
+            }
 
         }
 

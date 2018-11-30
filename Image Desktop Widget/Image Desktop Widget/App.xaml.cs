@@ -62,7 +62,6 @@ namespace Image_Desktop_Widget
 
         private class ViewInitializer
         {
-
             public void SetupView()
             {
 
@@ -76,7 +75,7 @@ namespace Image_Desktop_Widget
                 catch (Exception e)
                 {
                     UserInteraction.MessageBox.Show(e.Message);
-                    Application.Current.Shutdown();
+                    GetMainWindow().Show();
                 }
                 
                 var framedImageDataList = framedImages.ToList(); 
@@ -115,12 +114,17 @@ namespace Image_Desktop_Widget
                 }
                 else
                 {
-                    MainWindow mainWindow = Image_Desktop_Widget.MainWindow.Instance;
+                    MainWindow mainWindow = (MainWindow)GetMainWindow();
                     mainWindow.Show();
                     mainWindow.Focus();
 
                 }
 
+            }
+
+            private Window GetMainWindow()
+            {
+                return Image_Desktop_Widget.MainWindow.Instance;
             }
         }
     }
