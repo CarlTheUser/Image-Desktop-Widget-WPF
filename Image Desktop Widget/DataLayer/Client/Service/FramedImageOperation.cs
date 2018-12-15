@@ -22,7 +22,7 @@ namespace DataLayer.Client.Service
         private static readonly string ImageDirectoryPath = Configuration.Instance.UserImageDirectoryPath;
         
         //The object that will handle all internal implementations
-        private FramedImageModelPersistence framedImagedPersistence;
+        private static readonly FramedImageModelPersistence framedImagedPersistence = new XMLFramedImageModelPersistence();
 
         private readonly ExceptionLogger logger;
 
@@ -43,11 +43,6 @@ namespace DataLayer.Client.Service
 
         public FramedImageOperation()
         {
-            //from here you can change the implementation of your persistence service
-            //without breaking the app by just extending the FramedImageModelPersistence interface
-            //framedImagedService => new XMLService(), SQLService, WebService (lol), EtcServie
-            framedImagedPersistence = new XMLFramedImageModelPersistence();
-
             logger = new ExceptionLogger(TextLogger.GetInstance(Configuration.Instance.TextLogsPath));
         }
 

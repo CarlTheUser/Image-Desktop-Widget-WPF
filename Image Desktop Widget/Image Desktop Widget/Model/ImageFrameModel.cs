@@ -21,8 +21,6 @@ namespace Image_Desktop_Widget.Model
 
         #endregion
 
-        private readonly FramedImageOperation ImageFrameService = new FramedImageOperation();
-
         #region FactoryMethods
 
         public static ImageFrameModel Existing(
@@ -287,19 +285,19 @@ namespace Image_Desktop_Widget.Model
         protected override void SaveMethod()
         {
             FramedImageDTO framedImage = ToDTOForm();
-            ImageFrameService.Save(framedImage);
+            new FramedImageOperation().Save(framedImage);
             Id = framedImage.Id;
             ImagePath = framedImage.ImageFilepath;
         }
 
         protected override void EditMethod()
         {
-            ImageFrameService.Edit(ToDTOForm());
+            new FramedImageOperation().Edit(ToDTOForm());
         }
 
         protected override void DeleteMethod()
         {
-            ImageFrameService.Delete(ToDTOForm());
+            new FramedImageOperation().Delete(ToDTOForm());
         }
 
         #endregion
