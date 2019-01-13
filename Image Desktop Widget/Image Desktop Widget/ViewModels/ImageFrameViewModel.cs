@@ -125,7 +125,7 @@ namespace Image_Desktop_Widget.ViewModels
 
         private void SaveCurrentState()
         {
-            if(ImageFrameModel.State != Model.Model.ModelState.Deleted) ImageFrameModel.ApplyEdit();
+            if(ImageFrameModel.State != Model.Model.ModelState.Deleted) ImageFrameModel.Save();
         }
 
         private void Delete()

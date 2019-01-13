@@ -81,7 +81,7 @@ namespace Image_Desktop_Widget.ViewModels
 
         private void ApplyEdit()
         {
-            ImageFrameModel.ApplyEdit();
+            ImageFrameModel.Save();
         }
 
         private void CancelEdit()

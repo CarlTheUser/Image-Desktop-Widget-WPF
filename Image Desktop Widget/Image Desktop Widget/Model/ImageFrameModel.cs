@@ -227,58 +227,87 @@ namespace Image_Desktop_Widget.Model
 
         #region OverridenBehaviors
 
-        private string caption_backup = null;
-        private int? frame_thickness_backup = null;
-        private bool? caption_enabled_backup = null;
-        private int? rotation_angle_backup = null;
+        //private string caption_backup = null;
+        //private int? frame_thickness_backup = null;
+        //private bool? caption_enabled_backup = null;
+        //private int? rotation_angle_backup = null;
 
-        private bool? shadow_enabled_backup = null;
-        private double? shadow_opacity_backup = null;
-        private double? shadow_depth_backup = null;
-        private double? shadow_direction_backup = null;
-        private double? shadow_blur_radius_backup = null;
+        //private bool? shadow_enabled_backup = null;
+        //private double? shadow_opacity_backup = null;
+        //private double? shadow_depth_backup = null;
+        //private double? shadow_direction_backup = null;
+        //private double? shadow_blur_radius_backup = null;
 
 
         protected override void BackupProperties()
         {
-            caption_backup = caption;
-            frame_thickness_backup = frameThickness;
-            caption_enabled_backup = captionEnabled;
-            rotation_angle_backup = rotationAngle;
+            //caption_backup = caption;
+            //frame_thickness_backup = frameThickness;
+            //caption_enabled_backup = captionEnabled;
+            //rotation_angle_backup = rotationAngle;
 
-            shadow_enabled_backup = FrameShadow?.Enabled ?? false;
-            shadow_opacity_backup = FrameShadow?.Opacity ?? 0;
-            shadow_depth_backup = FrameShadow?.Depth ?? 0;
-            shadow_direction_backup = FrameShadow?.Direction ?? 0;
-            shadow_blur_radius_backup = FrameShadow?.BlurRadius ?? 0;
+            //shadow_enabled_backup = FrameShadow?.Enabled ?? false;
+            //shadow_opacity_backup = FrameShadow?.Opacity ?? 0;
+            //shadow_depth_backup = FrameShadow?.Depth ?? 0;
+            //shadow_direction_backup = FrameShadow?.Direction ?? 0;
+            //shadow_blur_radius_backup = FrameShadow?.BlurRadius ?? 0;
+
+            PropertyBackups["Caption"] = caption;
+            PropertyBackups["FrameThickness"] = frameThickness;
+            PropertyBackups["CaptionEnabled"] = captionEnabled;
+            PropertyBackups["RotationAngle"] = rotationAngle;
+
+            if(FrameShadow != null)
+            {
+                PropertyBackups["ShadowEnabled"] = FrameShadow.Enabled;
+                PropertyBackups["ShadowOpacity"] = FrameShadow.Opacity;
+                PropertyBackups["ShadowDepth"] = FrameShadow.Depth;
+                PropertyBackups["ShadowDirection"] = FrameShadow.Direction;
+                PropertyBackups["ShadowBlurRadius"] = FrameShadow.BlurRadius;
+            }
         }
 
         protected override void RestoreProperties()
         {
-            Caption = caption_backup;
-            FrameThickness = frame_thickness_backup.Value;
-            CaptionEnabled = caption_enabled_backup.Value;
-            RotationAngle = rotation_angle_backup.Value;
+            //Caption = caption_backup;
+            //FrameThickness = frame_thickness_backup.Value;
+            //CaptionEnabled = caption_enabled_backup.Value;
+            //RotationAngle = rotation_angle_backup.Value;
+
+            //if (FrameShadow != null)
+            //{
+            //    FrameShadow.Enabled = shadow_enabled_backup.Value;
+            //    FrameShadow.Opacity = shadow_opacity_backup.Value;
+            //    FrameShadow.Depth = shadow_depth_backup.Value;
+            //    FrameShadow.Direction = shadow_direction_backup.Value;
+            //    FrameShadow.BlurRadius = shadow_blur_radius_backup.Value;
+            //}
+
+            if(PropertyBackups.TryGetValue("Caption", out object caption_backup)) Caption = (string)caption_backup;
+            if (PropertyBackups.TryGetValue("FrameThickness", out object frame_thickness_backup)) FrameThickness = (int)frame_thickness_backup;
+            if (PropertyBackups.TryGetValue("CaptionEnabled", out object caption_enabled_backup)) CaptionEnabled = (bool)caption_enabled_backup;
+            if (PropertyBackups.TryGetValue("RotationAngle", out object rotation_angle_backup)) RotationAngle = (int)rotation_angle_backup;
 
             if (FrameShadow != null)
             {
-                FrameShadow.Enabled = shadow_enabled_backup.Value;
-                FrameShadow.Opacity = shadow_opacity_backup.Value;
-                FrameShadow.Depth = shadow_depth_backup.Value;
-                FrameShadow.Direction = shadow_direction_backup.Value;
-                FrameShadow.BlurRadius = shadow_blur_radius_backup.Value;
+                if (PropertyBackups.TryGetValue("ShadowEnabled", out object shadow_enabled_backup)) FrameShadow.Enabled = (bool)shadow_enabled_backup;
+                if (PropertyBackups.TryGetValue("ShadowOpacity", out object shadow_opacity_backup)) FrameShadow.Opacity = (double)shadow_opacity_backup;
+                if (PropertyBackups.TryGetValue("ShadowDepth", out object shadow_depth_backup)) FrameShadow.Depth = (double)shadow_depth_backup;
+                if (PropertyBackups.TryGetValue("ShadowDirection", out object shadow_direction_backup)) FrameShadow.Direction = (double)shadow_direction_backup;
+                if (PropertyBackups.TryGetValue("ShadowBlurRadius", out object shadow_blur_radius_backup)) FrameShadow.BlurRadius = (double)shadow_blur_radius_backup;
             }
 
         }
 
         protected override void ClearPropertyBackups()
         {
-            caption_backup = null;
-            frame_thickness_backup = null;
-            caption_enabled_backup = null;
-            rotation_angle_backup = null;
-            shadow_enabled_backup = null;
-            shadow_opacity_backup = shadow_depth_backup = shadow_direction_backup = shadow_blur_radius_backup = null;
+            //caption_backup = null;
+            //frame_thickness_backup = null;
+            //caption_enabled_backup = null;
+            //rotation_angle_backup = null;
+            //shadow_enabled_backup = null;
+            //shadow_opacity_backup = shadow_depth_backup = shadow_direction_backup = shadow_blur_radius_backup = null;
+            PropertyBackups.Clear();
 
         }
 

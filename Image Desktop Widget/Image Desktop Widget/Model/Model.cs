@@ -28,6 +28,20 @@ namespace Image_Desktop_Widget.Model
 
         #endregion
 
+        #region Private Properties
+
+        private IDictionary<string, object> _propertyBackups = null;
+
+        protected IDictionary<string, object> PropertyBackups
+        {
+            get
+            {
+                return _propertyBackups = _propertyBackups ?? new Dictionary<string, object>();
+            }
+        }
+
+        #endregion
+
         #region PublicProperties
 
         private ModelState state = ModelState.New;  //initializes as new
@@ -67,9 +81,19 @@ namespace Image_Desktop_Widget.Model
         {
             try
             {
-                SaveMethod();
-                State = ModelState.Old;
-                OnSaved();
+                if(State == ModelState.New)
+                {
+                    SaveMethod();
+                    State = ModelState.Old;
+                    OnSaved();
+                }
+                else if(State == ModelState.Editing || State == ModelState.Old)
+                {
+                    EditMethod();
+                    OnEditApplied();
+                    ClearPropertyBackups();
+                    State = ModelState.Old;
+                }
             }
             catch (Exception e)
             {
@@ -93,23 +117,23 @@ namespace Image_Desktop_Widget.Model
             State = ModelState.Old;
         }
 
-        public void ApplyEdit()
-        {
-            try
-            {
-                EditMethod();
-                OnEditApplied();
-                ClearPropertyBackups();
-                State = ModelState.Old;
+        //public void ApplyEdit()
+        //{
+        //    try
+        //    {
+        //        EditMethod();
+        //        OnEditApplied();
+        //        ClearPropertyBackups();
+        //        State = ModelState.Old;
                 
-            }
-            catch (Exception e)
-            {
-                State = ModelState.Dirty;
-                OnErrorOccured(e.Message);
-            }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        State = ModelState.Dirty;
+        //        OnErrorOccured(e.Message);
+        //    }
             
-        }
+        //}
 
         public void Delete()
         {
