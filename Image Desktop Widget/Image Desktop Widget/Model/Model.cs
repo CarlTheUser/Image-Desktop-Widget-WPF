@@ -30,15 +30,15 @@ namespace Image_Desktop_Widget.Model
 
         #region Private Properties
 
-        private IDictionary<string, object> _propertyBackups = null;
+        //private IDictionary<string, object> _propertyBackups = null;
 
-        protected IDictionary<string, object> PropertyBackups
-        {
-            get
-            {
-                return _propertyBackups = _propertyBackups ?? new Dictionary<string, object>();
-            }
-        }
+        //protected IDictionary<string, object> PropertyBackups
+        //{
+        //    get
+        //    {
+        //        return _propertyBackups = _propertyBackups ?? new Dictionary<string, object>();
+        //    }
+        //}
 
         #endregion
 

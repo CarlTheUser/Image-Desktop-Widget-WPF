@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace Image_Desktop_Widget.Model
 {
-    public sealed class ImageFrameModel : Model
+    public sealed class ImageFrameModel : Model, IOriginator<IImageFrameMemento>
     {
         #region Constants
 
@@ -77,16 +77,16 @@ namespace Image_Desktop_Widget.Model
             double shadowDirection,
             double shadowBlurRadius) : this()
         {
-            Id = id;
-            ImagePath = imagePath;
-            Caption = caption;
-            CaptionEnabled = captionEnabled;
-            Width = width;
-            Height = height;
-            FrameThickness = frameThickness;
-            LocationX = locationX;
-            LocationY = locationY;
-            RotationAngle = rotationAngle;
+            this.id = id;
+            this.imagePath = imagePath;
+            this.caption = caption;
+            this.captionEnabled = captionEnabled;
+            this.width = width;
+            this.height = height;
+            this.frameThickness = frameThickness;
+            this.location_x = locationX;
+            this.location_y = locationY;
+            this.rotationAngle = rotationAngle;
             FrameShadow.Enabled = shadowEnabled;
             FrameShadow.Opacity = shadowOpacity;
             FrameShadow.Depth = shadowDepth;
@@ -141,8 +141,11 @@ namespace Image_Desktop_Widget.Model
             get => captionEnabled;
             set
             {
-                captionEnabled = value;
-                OnPropertyChanged("CaptionEnabled");
+                if (State == ModelState.Editing)
+                {
+                    captionEnabled = value;
+                    OnPropertyChanged("CaptionEnabled");
+                }
             }
         }
 
@@ -177,8 +180,11 @@ namespace Image_Desktop_Widget.Model
             get => frameThickness;
             set
             {
-                frameThickness = (value >= MIN_FRAME_THICKNESS) ? value : MIN_FRAME_THICKNESS;
-                OnPropertyChanged("FrameThickness");
+                if (State == ModelState.Editing)
+                {
+                    frameThickness = (value >= MIN_FRAME_THICKNESS) ? value : MIN_FRAME_THICKNESS;
+                    OnPropertyChanged("FrameThickness");
+                }
             }
         }
 
@@ -213,8 +219,11 @@ namespace Image_Desktop_Widget.Model
             get => rotationAngle;
             set
             {
-                rotationAngle = value;
-                OnPropertyChanged("RotationAngle");
+                if (State == ModelState.Editing)
+                {
+                    rotationAngle = value;
+                    OnPropertyChanged("RotationAngle");
+                }
             }
         }
 
@@ -222,11 +231,39 @@ namespace Image_Desktop_Widget.Model
 
         public Shadow FrameShadow { get => shadow; }
 
+        private IImageFrameMemento stateBackup;
 
         #endregion
 
         #region OverridenBehaviors
 
+
+        public IImageFrameMemento WriteState()
+        {
+            return new ImageFrameMemento(
+                caption,
+                captionEnabled,
+                frameThickness,
+                rotationAngle,
+                shadow.Enabled,
+                shadow.Opacity,
+                shadow.Depth,
+                shadow.Direction,
+                shadow.BlurRadius);
+        }
+
+        public void ReadState(IImageFrameMemento memento)
+        {
+            Caption = memento.Caption;
+            CaptionEnabled = memento.CaptionEnabled;
+            FrameThickness = memento.FrameThickness;
+            RotationAngle = memento.RotationAngle;
+            shadow.Enabled = memento.ShadowEnabled;
+            shadow.Opacity = memento.ShadowOpacity;
+            shadow.Depth = memento.ShadowDepth;
+            shadow.Direction = memento.ShadowDepth;
+            shadow.BlurRadius = memento.ShadowBlurRadius;
+        }
         //private string caption_backup = null;
         //private int? frame_thickness_backup = null;
         //private bool? caption_enabled_backup = null;
@@ -252,19 +289,20 @@ namespace Image_Desktop_Widget.Model
             //shadow_direction_backup = FrameShadow?.Direction ?? 0;
             //shadow_blur_radius_backup = FrameShadow?.BlurRadius ?? 0;
 
-            PropertyBackups["Caption"] = caption;
-            PropertyBackups["FrameThickness"] = frameThickness;
-            PropertyBackups["CaptionEnabled"] = captionEnabled;
-            PropertyBackups["RotationAngle"] = rotationAngle;
+            //PropertyBackups["Caption"] = caption;
+            //PropertyBackups["FrameThickness"] = frameThickness;
+            //PropertyBackups["CaptionEnabled"] = captionEnabled;
+            //PropertyBackups["RotationAngle"] = rotationAngle;
 
-            if(FrameShadow != null)
-            {
-                PropertyBackups["ShadowEnabled"] = FrameShadow.Enabled;
-                PropertyBackups["ShadowOpacity"] = FrameShadow.Opacity;
-                PropertyBackups["ShadowDepth"] = FrameShadow.Depth;
-                PropertyBackups["ShadowDirection"] = FrameShadow.Direction;
-                PropertyBackups["ShadowBlurRadius"] = FrameShadow.BlurRadius;
-            }
+            //if(FrameShadow != null)
+            //{
+            //    PropertyBackups["ShadowEnabled"] = FrameShadow.Enabled;
+            //    PropertyBackups["ShadowOpacity"] = FrameShadow.Opacity;
+            //    PropertyBackups["ShadowDepth"] = FrameShadow.Depth;
+            //    PropertyBackups["ShadowDirection"] = FrameShadow.Direction;
+            //    PropertyBackups["ShadowBlurRadius"] = FrameShadow.BlurRadius;
+            //}
+            stateBackup = WriteState();
         }
 
         protected override void RestoreProperties()
@@ -283,20 +321,20 @@ namespace Image_Desktop_Widget.Model
             //    FrameShadow.BlurRadius = shadow_blur_radius_backup.Value;
             //}
 
-            if(PropertyBackups.TryGetValue("Caption", out object caption_backup)) Caption = (string)caption_backup;
-            if (PropertyBackups.TryGetValue("FrameThickness", out object frame_thickness_backup)) FrameThickness = (int)frame_thickness_backup;
-            if (PropertyBackups.TryGetValue("CaptionEnabled", out object caption_enabled_backup)) CaptionEnabled = (bool)caption_enabled_backup;
-            if (PropertyBackups.TryGetValue("RotationAngle", out object rotation_angle_backup)) RotationAngle = (int)rotation_angle_backup;
+            //if(PropertyBackups.TryGetValue("Caption", out object caption_backup)) Caption = (string)caption_backup;
+            //if (PropertyBackups.TryGetValue("FrameThickness", out object frame_thickness_backup)) FrameThickness = (int)frame_thickness_backup;
+            //if (PropertyBackups.TryGetValue("CaptionEnabled", out object caption_enabled_backup)) CaptionEnabled = (bool)caption_enabled_backup;
+            //if (PropertyBackups.TryGetValue("RotationAngle", out object rotation_angle_backup)) RotationAngle = (int)rotation_angle_backup;
 
-            if (FrameShadow != null)
-            {
-                if (PropertyBackups.TryGetValue("ShadowEnabled", out object shadow_enabled_backup)) FrameShadow.Enabled = (bool)shadow_enabled_backup;
-                if (PropertyBackups.TryGetValue("ShadowOpacity", out object shadow_opacity_backup)) FrameShadow.Opacity = (double)shadow_opacity_backup;
-                if (PropertyBackups.TryGetValue("ShadowDepth", out object shadow_depth_backup)) FrameShadow.Depth = (double)shadow_depth_backup;
-                if (PropertyBackups.TryGetValue("ShadowDirection", out object shadow_direction_backup)) FrameShadow.Direction = (double)shadow_direction_backup;
-                if (PropertyBackups.TryGetValue("ShadowBlurRadius", out object shadow_blur_radius_backup)) FrameShadow.BlurRadius = (double)shadow_blur_radius_backup;
-            }
-
+            //if (FrameShadow != null)
+            //{
+            //    if (PropertyBackups.TryGetValue("ShadowEnabled", out object shadow_enabled_backup)) FrameShadow.Enabled = (bool)shadow_enabled_backup;
+            //    if (PropertyBackups.TryGetValue("ShadowOpacity", out object shadow_opacity_backup)) FrameShadow.Opacity = (double)shadow_opacity_backup;
+            //    if (PropertyBackups.TryGetValue("ShadowDepth", out object shadow_depth_backup)) FrameShadow.Depth = (double)shadow_depth_backup;
+            //    if (PropertyBackups.TryGetValue("ShadowDirection", out object shadow_direction_backup)) FrameShadow.Direction = (double)shadow_direction_backup;
+            //    if (PropertyBackups.TryGetValue("ShadowBlurRadius", out object shadow_blur_radius_backup)) FrameShadow.BlurRadius = (double)shadow_blur_radius_backup;
+            //}
+            ReadState(stateBackup);
         }
 
         protected override void ClearPropertyBackups()
@@ -307,7 +345,8 @@ namespace Image_Desktop_Widget.Model
             //rotation_angle_backup = null;
             //shadow_enabled_backup = null;
             //shadow_opacity_backup = shadow_depth_backup = shadow_direction_backup = shadow_blur_radius_backup = null;
-            PropertyBackups.Clear();
+            //PropertyBackups.Clear();
+            stateBackup = null;
 
         }
 

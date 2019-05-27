@@ -9,7 +9,6 @@ namespace DataLayer
 {
     internal static class FileProperty
     {
-
         private static readonly List<string> jpg;
         private static readonly List<string> bmp;
         private static readonly List<string> gif;

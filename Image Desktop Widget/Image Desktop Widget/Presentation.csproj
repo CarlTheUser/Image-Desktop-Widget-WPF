@@ -65,7 +65,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -109,7 +109,10 @@
       <DependentUpon>ImageFrameSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="IViewLauncher.cs" />
+    <Compile Include="Model\IImageFrameMemento.cs" />
+    <Compile Include="Model\ImageFrameMemento.cs" />
     <Compile Include="Model\ImageFrameModel.cs" />
+    <Compile Include="Model\IOriginator.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="Pages\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
